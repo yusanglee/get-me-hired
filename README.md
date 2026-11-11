@@ -53,11 +53,9 @@ flowchart TD
   builds or adapts a role pack (the titles you search and what scores a role up or down), and sets locations, pay
   floor and target companies.
 
-  > [!IMPORTANT]
-  > **Setup is the most important step.** get-me-hired's output is only as good as what you put into your profile:
-  > every score, resume and answer is built only from the facts you give it here, and it never invents anything.
-  > Take your time, share every resume version you have, and be thorough. You can come back any time to add what you
-  > remember later (run setup again, or ask to update your profile or master resume).
+> [!TIP]
+> **Setup is the most important step.** get-me-hired's output is only as good as what you put into your profile: every score, resume and answer is built only from the facts you give it here, and it never invents anything. Take your time, share every resume version you have, and be thorough. You can come back any time to add what you remember later (run setup again, or ask to update your profile or master resume).
+
 - **Gmail sync**: finds confirmations, interview invites and rejections in your email and proposes tracker updates.
   You approve each row. Optional; without Gmail it skips this step.
 - **Find and score**: searches your target companies' job boards and the job sites, drops roles that fail your
@@ -82,6 +80,7 @@ flowchart TD
 - **Materials over time**: when postings keep asking for something your master resume states but no approved
   bullet does, it drafts new bullets, bios or template versions. Each one is added only after you approve its
   exact wording.
+
 
 ## What you need
 
@@ -132,6 +131,9 @@ press `Return`. Wait for it to finish (you'll see a new prompt line) before past
    node -v
    pdftotext -v
    ```
+
+> [!WARNING]
+> Get-me-hired was only tested on macOS. Although cross-platform compatibility passed CI testing during development, a real run on other operating systems has not yet been verified.
 
 ### Linux (Debian or Ubuntu)
 Open a terminal and run these one at a time (`sudo` asks for your password):
