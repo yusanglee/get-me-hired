@@ -1,0 +1,2 @@
+description = "Builds an interview prep pack from the exact resume, cover letter and posting you submitted, and drafts thank-you notes afterwards, never sent. Use before an interview, or after one for the thank-you notes."
+prompt = "Use the get-me-hired interview skill. {{args}}"

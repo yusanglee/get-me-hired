@@ -1,0 +1,47 @@
+name: tests
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      # Windows runs without PYTHONUTF8 on purpose, so a file opened without encoding= fails here first.
+      - run: python -m unittest discover tests
+
+  # The README promises Python 3.9+. GitHub's Python builds no longer cover 3.9 on current Ubuntu runners,
+  # so uv fetches a standalone 3.9 build.
+  python-3-9:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v6
+      - run: uv run --no-project --python 3.9 python -m unittest discover tests
+
+  node-builders:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - run: npm ci --prefix tools
+      - run: python -m unittest tests.test_design tests.test_approval_guard -v

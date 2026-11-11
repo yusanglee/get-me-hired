@@ -1,0 +1,19 @@
+{
+ "name": "JORDAN RIVERA",
+ "bio": "Product Leader  ·  Consumer Apps & Marketplaces",
+ "contact": ["Chicago, IL  ·  555-0100  ·  jordan@example.com", "linkedin.com/in/jordan-rivera-example"],
+ "summary": "Product leader with **8 years** shipping consumer apps. Led growth, monetization and onboarding for a marketplace with **2M monthly users**, and built teams that ship weekly.",
+ "experience": [
+  {"role": "Senior Product Manager", "dates": "Jan 2022 - Present", "company": "Brightwater", "location": "Chicago, IL",
+   "scope": "Consumer marketplace for local services. Owned **growth and onboarding** across 4 teams.",
+   "bullets": ["Grew repeat purchases **40%** by redesigning the post-booking flow and testing six reminder variants.",
+               "Launched a referral program that drove **18%** of new signups within two quarters."]},
+  {"role": "Product Manager", "dates": "Jun 2018 - Dec 2021", "company": "Northwind Labs", "location": "Remote",
+   "scope": "",
+   "bullets": ["Shipped subscription billing for 120k customers with no churn spike at migration."]}
+ ],
+ "skills": "Experimentation  |  SQL  |  Roadmaps  |  Pricing",
+ "education": [{"school": "State University", "degree": "B.A., Economics", "years": "2010 - 2014"},
+               {"school": "City College", "degree": "Certificate, Design", "years": "2015"}],
+ "extra_sections": [{"heading": "INTERESTS", "text": "Trail running, **film photography**, community radio."}]
+}

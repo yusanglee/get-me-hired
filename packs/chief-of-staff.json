@@ -1,0 +1,270 @@
+{
+ "name": "chief-of-staff",
+ "label": "Chief of Staff / Strategy & Operations",
+ "_note": "Base pack for Chief of Staff and adjacent strategy-and-operations roles. Catalogs and terms checked on 2026-10-21 against 83 live postings from 45 companies (at most 3 per company counted): every entry appears in real postings, and patterns that matched boilerplate (mission statements, benefits, recruiting-scam notices, office policies) were narrowed or removed. /setup step 9 re-checks it against postings for each user's own titles.",
+ "titles": {
+  "include": "\\bchief of staff\\b|\\bstrategy (and|&) operations\\b|\\bbiz ?ops\\b|\\bbusiness operations\\b|\\bstrategic (initiatives|operations|programs)\\b|\\bhead of (strategy|operations|business operations)\\b|\\bdirector,? (of )?(strategy|business operations|strategic initiatives)\\b",
+  "exclude": [
+   "executive assistant",
+   "administrative assistant",
+   "intern",
+   "internship",
+   "medical staff",
+   "nursing",
+   "physician",
+   "military",
+   "army",
+   "navy",
+   "air force",
+   "sales operations",
+   "revenue operations",
+   "marketing operations",
+   "people operations",
+   "it operations",
+   "security operations",
+   "network operations",
+   "clinical operations",
+   "supply chain"
+  ],
+  "other_family": "engineer|engineering|software|analyst|accountant|recruiter|nurse|product manager|project manager",
+  "family_override": "chief of staff",
+  "senior": "chief of staff|director|head|senior|sr\\.?|principal|lead|manager",
+  "board_queries": [
+   "chief of staff",
+   "chief of staff to the ceo",
+   "strategy and operations",
+   "business operations",
+   "strategic initiatives"
+  ]
+ },
+ "level": {
+  "title": [
+   {
+    "pattern": "chief of staff to the (ceo|founder|president|coo)|head of|director",
+    "points": 6
+   },
+   {
+    "pattern": "chief of staff|senior|sr\\.?|principal|lead",
+    "points": 3
+   }
+  ],
+  "pay": [
+   {
+    "min_top": 250000,
+    "points": 6
+   },
+   {
+    "min_top": 200000,
+    "points": 3
+   }
+  ],
+  "down_level_title": "\\bassociate\\b|\\bcoordinator\\b|\\bjunior\\b|deputy chief of staff",
+  "down_level_below": null,
+  "_note": "Pay points apply only when the title has no level word; set them to your market."
+ },
+ "requirements": {
+  "alternatives": "\\bor\\b[^.;\\n]{0,100}\\b(operations|operating|strategy|strategic|startup|chief of staff|similar|equivalent)\\b",
+  "_note": "A gap does not count where the posting offers an alternative such as \"or operating roles\" or \"or a chief of staff role\"."
+ },
+ "strength_catalog": [
+  {
+   "label": "executive partnership",
+   "pattern": "\\bceo\\b|founder|executive team|leadership team|c-suite|senior leaders|executives",
+   "weight": 4
+  },
+  {
+   "label": "operating cadence and planning",
+   "pattern": "operating (cadence|rhythm|model|reviews?)|\\bokrs?\\b|planning (cycle|process)|annual plan|business reviews?|\\bqbrs?\\b",
+   "weight": 4
+  },
+  {
+   "label": "board materials",
+   "pattern": "board (meeting|deck|materials|of directors)",
+   "weight": 3
+  },
+  {
+   "label": "fundraising and investors",
+   "pattern": "fundrais|investor relations|investor updates|\\bseries [a-e]\\b",
+   "weight": 2
+  },
+  {
+   "label": "strategic planning",
+   "pattern": "strategic planning|(company|corporate|business|long-range) (strategy|plan)",
+   "weight": 3
+  },
+  {
+   "label": "special projects",
+   "pattern": "special projects|strategic initiatives",
+   "weight": 2
+  },
+  {
+   "label": "cross-functional leadership",
+   "pattern": "cross-functional",
+   "weight": 2
+  },
+  {
+   "label": "high-growth / startup scaling",
+   "pattern": "scal(e|ing) (the )?(company|business|team|organization)|hypergrowth|high-growth|startup",
+   "weight": 2
+  },
+  {
+   "label": "org design and headcount",
+   "pattern": "org(anizational)? design|headcount planning|hiring plans?",
+   "weight": 2
+  },
+  {
+   "label": "budgets and financial models",
+   "pattern": "budget(ing)?|financial (model|planning)|\\bfp&a\\b|p&l|forecast(ing)?",
+   "weight": 3
+  },
+  {
+   "label": "m&a / corporate development",
+   "pattern": "\\bm&a\\b|mergers and acquisitions|corporate development",
+   "weight": 2
+  },
+  {
+   "label": "go-to-market",
+   "pattern": "go-to-market|\\bgtm\\b",
+   "weight": 3
+  },
+  {
+   "label": "executive communications",
+   "pattern": "executive (communications?|narratives?|presentations?)|all-hands|(board|leadership) (updates|presentations|narratives)",
+   "weight": 3
+  },
+  {
+   "label": "program management",
+   "pattern": "program management|project management|\\bpmo\\b",
+   "weight": 2
+  },
+  {
+   "label": "management consulting",
+   "pattern": "management consulting|strategy consulting|consulting (firm|background|experience)|mckinsey|bain|bcg",
+   "weight": 3
+  },
+  {
+   "label": "analytics and sql",
+   "pattern": "\\bsql\\b|data analysis|analytics|dashboards|data-driven",
+   "weight": 3
+  },
+  {
+   "label": "kpis and metrics",
+   "pattern": "\\bkpis?\\b|metrics",
+   "weight": 2
+  },
+  {
+   "label": "process improvement",
+   "pattern": "process improvement|operational efficiency|streamlin",
+   "weight": 2
+  },
+  {
+   "label": "product strategy",
+   "pattern": "product (strategy|roadmap|launch)",
+   "weight": 2
+  },
+  {
+   "label": "sales planning",
+   "pattern": "territory (planning|design)|quota|capacity planning|sales planning|pipeline (management|reviews?)|forecast accuracy",
+   "weight": 2
+  },
+  {
+   "label": "ai tools",
+   "pattern": "\\bai tools\\b|\\bllms?\\b|generative ai|\\bai[- ]native\\b",
+   "weight": 2
+  },
+  {
+   "label": "written communication",
+   "pattern": "written communication|storytelling|exec(utive)? presence",
+   "weight": 2
+  }
+ ],
+ "strength_cap": 45,
+ "gap_catalog": [
+  {
+   "label": "consulting or banking background",
+   "pattern": "(management|strategy) consulting|investment banking|private equity|top-tier (consulting|bank)",
+   "weight": 8
+  },
+  {
+   "label": "SQL / Python",
+   "pattern": "\\bsql\\b|\\bpython\\b",
+   "weight": 6
+  },
+  {
+   "label": "regional market experience (APAC, EMEA, LATAM)",
+   "pattern": "international (expansion|markets)|\\bapac\\b|\\bemea\\b|\\blatam\\b|\\bjapan\\b",
+   "weight": 6
+  },
+  {
+   "label": "public sector / political",
+   "pattern": "public sector|government (stakeholders|relations|affairs)|security clearance|political|campaign",
+   "weight": 8
+  },
+  {
+   "label": "B2B / enterprise software",
+   "pattern": "\\bb2b\\b|enterprise (saas|software|sales|customers)",
+   "weight": 6
+  },
+  {
+   "label": "AI/ML background",
+   "pattern": "ai/ml|machine learning|\\bml\\b",
+   "weight": 6
+  }
+ ],
+ "title_gaps": [],
+ "terms": [
+  "cross-functional",
+  "stakeholder management",
+  "stakeholders",
+  "business operations",
+  "strategy & operations",
+  "gtm",
+  "go-to-market",
+  "sql",
+  "excel",
+  "salesforce",
+  "tableau",
+  "looker",
+  "dashboards",
+  "kpis",
+  "okrs",
+  "metrics",
+  "reporting",
+  "business reviews",
+  "operating model",
+  "operating rhythm",
+  "operating cadence",
+  "annual planning",
+  "strategic planning",
+  "budget",
+  "headcount",
+  "forecasting",
+  "financial modeling",
+  "financial models",
+  "business cases",
+  "pricing",
+  "partnerships",
+  "expansion",
+  "pipeline",
+  "revenue operations",
+  "sales strategy",
+  "management consulting",
+  "investment banking",
+  "strategic finance",
+  "program management",
+  "project management",
+  "change management",
+  "prioritization",
+  "roadmap",
+  "automation",
+  "ai tools",
+  "board",
+  "fundraising",
+  "m&a",
+  "special projects",
+  "strategic initiatives",
+  "executive team",
+  "c-suite",
+  "written communication"
+ ]
+}

@@ -1,0 +1,2 @@
+description = "Updates application statuses from new email (confirmations, assessments, interviews, offers, rejections) after you approve each row. Use every few days, at the start and end of a day, or when news may have arrived by email."
+prompt = "Use the get-me-hired gmail-sync skill. {{args}}"

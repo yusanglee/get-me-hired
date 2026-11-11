@@ -1,0 +1,131 @@
+# profile.yaml: your facts. Lives in your private workspace, never in the plugin repo.
+# Every form answer the engine gives comes from here or from answer-bank.md. Leave a value
+# empty and any question that needs it stops for you instead of being guessed.
+# (Example values are fictional.)
+
+identity:
+  first_name: Jordan
+  last_name: Rivera
+  preferred_name:            # empty: use first_name where a form requires one
+  pronouns: She/Her
+  email: jordan.rivera@example.com
+  phone: 555-010-0199
+  linkedin: linkedin.com/in/jordan-rivera-example
+  website:
+  github:
+
+home:
+  city: Chicago
+  state: Illinois
+  state_code: IL
+  country: United States of America
+
+work_authorization:          # legal attestations: answer exactly
+  authorized_us: "Yes"
+  needs_sponsorship: "No"
+  visa_detail: No / N/A (U.S. citizen)
+  citizenship: United States of America
+  resides_in_country: "Yes"
+  eligible_countries: United States
+  # permanent_resident: "Yes"   # green-card holders: passes "citizens or permanent residents only"
+  # clearance: Secret (active)  # only if you hold one; missing means none
+  # Canada (only if you apply there; once either is set, Canadian postings are checked against these, not the U.S. fields):
+  # authorized_canada: "Yes"            # legally entitled to work in Canada
+  # needs_sponsorship_canada: "No"      # forms asking about Canadian sponsorship; missing means the form is left for you
+  # permanent_resident_canada: "Yes"    # Canadian PR: passes "citizens or permanent residents only"
+
+languages:                   # read by the language gate (none listed = English only); levels: basic, conversational, professional, fluent, native
+  - language: English
+    level: native
+  # - language: French        # add if you speak it: Quebec postings that require French are gated otherwise
+  #   level: professional
+
+attestations:
+  over_18: "Yes"
+  non_compete: "No"
+  previously_employed: "No"
+  government_official: "No"
+  referred: "No"
+
+education:                   # first entry = highest degree
+  - school: Northwestern University
+    degree: Bachelor's degree
+    field: Economics
+    start: 2008
+    end: 2012
+
+employment:
+  currently_employed: false
+  current_employer:
+  most_recent:
+    company: Example Health
+    title: Chief of Staff to the CEO
+    start: Mar 2021
+    end: Jun 2026
+  years_experience: 14 years (2012 to 2026)
+  # managed_managers: "No"   # "No" holds roles asking you to manage managers out of tier A; "Yes" clears the flag
+
+eeo:                         # voluntary; "Decline to self-identify" is always fine
+  gender: Female
+  race: Decline to self-identify
+  hispanic: Decline to self-identify
+  veteran: I am not a protected veteran
+  disability: Decline to self-identify
+  sexual_orientation: Decline to self-identify
+  transgender: "No"
+  lgbtq: Decline to self-identify
+  # Canadian employment-equity questions (Employment Equity Act); each missing one answers "I prefer not to answer"
+  # employment_equity:
+  #   women: I prefer not to answer
+  #   indigenous: I prefer not to answer
+  #   visible_minority: I prefer not to answer
+  #   disability: I prefer not to answer
+  #   self_identify: I prefer not to answer
+
+preferences:
+  how_heard: Company careers page
+  how_heard_fallback: [LinkedIn]   # tried in order when a picker has no option for how_heard
+  travel: Yes, up to 25%
+  start_date_days: 14
+  salary_history: Decline to answer
+  total_comp: Open
+  planning_to_move: "No"
+  marketing_opt_in: "No"
+  future_opportunities: "Yes"
+
+salary:                      # the number entered when a form requires one
+  floor: 180000              # max(top of posted range x top_factor, range bottom, floor)
+  top_factor: 0.75
+  round_to: 5000
+
+location_answers:            # optional wording per metro (names match config locations.metros)
+  NYC:
+    office: Yes, I would relocate to New York City and work from the office as required.
+
+files:
+  prefix:                    # empty: First_Last_ (e.g. Jordan_Rivera_Resume_<role>.pdf)
+
+resume:
+  stale_numbers: []          # regexes for figures you've retired; any match fails the resume check
+
+forms:                       # what the browser form fillers type and pick; leave out a block to skip it
+  city_typed: Chicago
+  city_option: '^Chicago, (IL|Illinois)'
+  greenhouse_location_option: '^Chicago, Illinois, United States'
+  education:
+    school_typed: Northwestern
+    school_option: '^Northwestern University'
+    lever_school_option: '^Northwestern University$'
+    degree_option: "^Bachelor's Degree$"
+    discipline_typed: Economics
+    discipline_option: '^Economics$'
+    start_month: [September, '09', '9']
+    start_year: ['2008']
+    end_month: [June, '06', '6']
+    end_year: ['2012']
+  employment:
+    start_month: March
+    start_year: '2021'
+    end_month: June
+    end_year: '2026'
+    summary: Example Health, Chief of Staff to the CEO, Mar 2021 - Jun 2026

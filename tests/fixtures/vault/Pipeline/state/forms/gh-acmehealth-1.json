@@ -1,0 +1,10 @@
+{"id": "gh-acmehealth-1", "company": "Acme Health", "title": "Chief of Staff", "url": "https://job-boards.greenhouse.io/acmehealth/jobs/1",
+ "questions": [
+  {"label": "First Name", "required": true, "type": "input_text", "options": [], "section": ""},
+  {"label": "Website", "required": false, "type": "input_text", "options": [], "section": ""},
+  {"label": "Gender", "required": false, "type": "multi_value_single_select", "options": ["Man", "Woman", "Decline To Self Identify"], "section": ""},
+  {"label": "How did you hear about this job?", "required": true, "type": "multi_value_single_select", "options": ["LinkedIn", "Indeed", "Other"], "section": ""},
+  {"label": "Will you require visa sponsorship?", "required": true, "type": "multi_value_single_select", "options": ["Yes", "No"], "section": ""},
+  {"label": "Tell us about a hard call you made", "required": true, "type": "textarea", "options": [], "section": ""},
+  {"label": "Are you a member of our book club?", "required": true, "type": "input_text", "options": [], "section": ""}
+ ]}

@@ -1,0 +1,9 @@
+{
+  "name": "get-me-hired-tools",
+  "private": true,
+  "description": "Node dependencies for resume, cover letter and form-fill tools. Install once: npm install --prefix tools",
+  "license": "MIT",
+  "dependencies": {
+    "docx": "9.12.0"
+  }
+}

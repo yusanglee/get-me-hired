@@ -1,0 +1,2 @@
+description = "Grows the approved resume material over time - new bank bullets, bios, summaries and template versions drafted from what recent applications kept asking for - and adds each only after the user approves its exact wording. Use before resumes are built, at wrap-up, or on request."
+prompt = "Use the get-me-hired materials skill. {{args}}"

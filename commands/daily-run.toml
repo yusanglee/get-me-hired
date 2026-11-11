@@ -1,0 +1,2 @@
+description = "Runs only the find-and-pick part of the day, finding and scoring new roles, reading the A and B roles, showing the review page and taking the user's picks. Use when the user wants just that part. The whole day is the today skill."
+prompt = "Use the get-me-hired daily-run skill. {{args}}"

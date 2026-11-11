@@ -1,0 +1,2 @@
+description = "Records one application's outcome or status change (assessment, interview, offer, rejection, withdrawal, no response) after you confirm it. Use when you hear back, or news did not come by email."
+prompt = "Use the get-me-hired outcome skill. {{args}}"

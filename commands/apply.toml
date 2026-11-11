@@ -1,0 +1,2 @@
+description = "Fills one application form in the Playwright browser, resume upload included, and stops at Submit. Submits only after the user approves that application. Use for a single role id; a whole queue is apply-all."
+prompt = "Use the get-me-hired apply skill. {{args}}"

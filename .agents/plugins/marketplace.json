@@ -1,0 +1,12 @@
+{
+  "name": "get-me-hired",
+  "interface": {"displayName": "get-me-hired"},
+  "plugins": [
+    {
+      "name": "get-me-hired",
+      "source": {"source": "local", "path": "./"},
+      "policy": {"installation": "AVAILABLE", "authentication": "ON_USE"},
+      "category": "Productivity"
+    }
+  ]
+}

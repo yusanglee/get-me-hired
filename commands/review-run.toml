@@ -1,0 +1,2 @@
+description = "Shows the latest discover and score run (every scored, held-back and dropped role, with reasons) and turns the user's picks into the reviewed CSV. Use after discover and score, or when picks are confirmed on the review page."
+prompt = "Use the get-me-hired review-run skill. {{args}}"

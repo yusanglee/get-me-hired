@@ -1,0 +1,359 @@
+[
+ {
+  "note": "inline submit code",
+  "tool_name": "mcp__plugin_get-me-hired_playwright__browser_run_code_unsafe",
+  "tool_input": {
+   "code": "async (page) => { await page.getByRole('button', { name: 'Submit application' }).click(); }"
+  },
+  "expect": "submit"
+ },
+ {
+  "note": "inline submit code",
+  "tool_name": "mcp__plugin_get-me-hired_playwright__browser_run_code_unsafe",
+  "tool_input": {
+   "code": "async (page) => page.locator('#btn-submit').click()"
+  },
+  "expect": "submit"
+ },
+ {
+  "note": "inline submit code",
+  "tool_name": "mcp__plugin_get-me-hired_playwright__browser_run_code_unsafe",
+  "tool_input": {
+   "code": "async (page) => page.evaluate(() => document.forms[0].requestSubmit())"
+  },
+  "expect": "submit"
+ },
+ {
+  "note": "inline submit code",
+  "tool_name": "mcp__plugin_get-me-hired_playwright__browser_run_code_unsafe",
+  "tool_input": {
+   "code": "async (page) => page.locator('button[type=submit]').click()"
+  },
+  "expect": "submit"
+ },
+ {
+  "note": "inline submit code",
+  "tool_name": "mcp__plugin_get-me-hired_playwright__browser_run_code_unsafe",
+  "tool_input": {
+   "code": "async (page) => page.locator('form').evaluate(f => f.submit())"
+  },
+  "expect": "submit"
+ },
+ {
+  "note": "fill only",
+  "tool_name": "mcp__plugin_get-me-hired_playwright__browser_run_code_unsafe",
+  "tool_input": {
+   "code": "async (page) => page.getByLabel('First name').fill('Jordan')"
+  },
+  "expect": "pass"
+ },
+ {
+  "note": "Enter inside fill code is not flagged (as before)",
+  "tool_name": "mcp__plugin_get-me-hired_playwright__browser_run_code_unsafe",
+  "tool_input": {
+   "code": "async (page) => page.keyboard.press('Enter')"
+  },
+  "expect": "pass"
+ },
+ {
+  "note": "submit script by name",
+  "tool_name": "mcp__plugin_get-me-hired_playwright__browser_run_code_unsafe",
+  "tool_input": {
+   "filename": "tools/submit/submit_lever.js"
+  },
+  "expect": "submit"
+ },
+ {
+  "note": "windows path",
+  "tool_name": "mcp__plugin_get-me-hired_playwright__browser_run_code_unsafe",
+  "tool_input": {
+   "filename": "C:\\plugin\\tools\\submit\\submit_greenhouse.js"
+  },
+  "expect": "submit"
+ },
+ {
+  "note": "",
+  "tool_name": "mcp__playwright__browser_run_code",
+  "tool_input": {
+   "code": "x => x.locator('#btn-submit').click()"
+  },
+  "expect": "submit"
+ },
+ {
+  "note": "",
+  "tool_name": "mcp__playwright__browser_evaluate",
+  "tool_input": {
+   "function": "() => document.forms[0].requestSubmit()"
+  },
+  "expect": "submit"
+ },
+ {
+  "note": "plugin playwright server",
+  "tool_name": "mcp__plugin_playwright_playwright__browser_run_code_unsafe",
+  "tool_input": {
+   "code": "p => p.locator('#btn-submit').click()"
+  },
+  "expect": "submit"
+ },
+ {
+  "note": "gemini name style",
+  "tool_name": "mcp_playwright_browser_run_code_unsafe",
+  "tool_input": {
+   "code": "p => p.locator('#btn-submit').click()"
+  },
+  "expect": "submit"
+ },
+ {
+  "note": "gemini name style",
+  "tool_name": "mcp_playwright_browser_click",
+  "tool_input": {
+   "element": "Submit Application button",
+   "ref": "e1"
+  },
+  "expect": "submit"
+ },
+ {
+  "note": "",
+  "tool_name": "mcp__playwright__browser_click",
+  "tool_input": {
+   "element": "Submit Application button",
+   "ref": "e12"
+  },
+  "expect": "submit"
+ },
+ {
+  "note": "",
+  "tool_name": "mcp__playwright__browser_click",
+  "tool_input": {
+   "element": "Send application",
+   "ref": "e12"
+  },
+  "expect": "submit"
+ },
+ {
+  "note": "",
+  "tool_name": "mcp__playwright__browser_click",
+  "tool_input": {
+   "element": "Upload resume button",
+   "ref": "e9"
+  },
+  "expect": "pass"
+ },
+ {
+  "note": "",
+  "tool_name": "mcp__plugin_playwright_playwright__browser_click",
+  "tool_input": {
+   "element": "Submit",
+   "ref": "e1"
+  },
+  "expect": "submit"
+ },
+ {
+  "note": "type with submit",
+  "tool_name": "mcp__playwright__browser_type",
+  "tool_input": {
+   "element": "Email",
+   "ref": "e3",
+   "text": "a@b.c",
+   "submit": true
+  },
+  "expect": "submit"
+ },
+ {
+  "note": "gemini",
+  "tool_name": "mcp_playwright_browser_type",
+  "tool_input": {
+   "element": "Email",
+   "ref": "e3",
+   "text": "a@b.c",
+   "submit": true
+  },
+  "expect": "submit"
+ },
+ {
+  "note": "",
+  "tool_name": "mcp__playwright__browser_type",
+  "tool_input": {
+   "element": "Email",
+   "ref": "e3",
+   "text": "a@b.c",
+   "submit": false
+  },
+  "expect": "pass"
+ },
+ {
+  "note": "",
+  "tool_name": "mcp__playwright__browser_type",
+  "tool_input": {
+   "element": "Email",
+   "ref": "e3",
+   "text": "a@b.c"
+  },
+  "expect": "pass"
+ },
+ {
+  "note": "Enter key Enter",
+  "tool_name": "mcp__playwright__browser_press_key",
+  "tool_input": {
+   "key": "Enter"
+  },
+  "expect": "submit"
+ },
+ {
+  "note": "Enter key NumpadEnter",
+  "tool_name": "mcp__playwright__browser_press_key",
+  "tool_input": {
+   "key": "NumpadEnter"
+  },
+  "expect": "submit"
+ },
+ {
+  "note": "Enter key Control+Enter",
+  "tool_name": "mcp__playwright__browser_press_key",
+  "tool_input": {
+   "key": "Control+Enter"
+  },
+  "expect": "submit"
+ },
+ {
+  "note": "Enter key enter",
+  "tool_name": "mcp__playwright__browser_press_key",
+  "tool_input": {
+   "key": "enter"
+  },
+  "expect": "submit"
+ },
+ {
+  "note": "gemini",
+  "tool_name": "mcp_playwright_browser_press_key",
+  "tool_input": {
+   "key": "Enter"
+  },
+  "expect": "submit"
+ },
+ {
+  "note": "",
+  "tool_name": "mcp__playwright__browser_press_key",
+  "tool_input": {
+   "key": "ArrowDown"
+  },
+  "expect": "pass"
+ },
+ {
+  "note": "",
+  "tool_name": "mcp__playwright__browser_press_key",
+  "tool_input": {
+   "key": "Escape"
+  },
+  "expect": "pass"
+ },
+ {
+  "note": "",
+  "tool_name": "mcp__playwright__browser_press_key",
+  "tool_input": {
+   "key": "Tab"
+  },
+  "expect": "pass"
+ },
+ {
+  "note": "",
+  "tool_name": "mcp__playwright__browser_press_key",
+  "tool_input": {
+   "key": "a"
+  },
+  "expect": "pass"
+ },
+ {
+  "note": "not a guarded tool",
+  "tool_name": "mcp__playwright__browser_navigate",
+  "tool_input": {
+   "url": "https://example.com/submit",
+   "element": "Submit"
+  },
+  "expect": "pass"
+ },
+ {
+  "note": "not a guarded tool",
+  "tool_name": "mcp__playwright__browser_snapshot",
+  "tool_input": {
+   "url": "https://example.com/submit",
+   "element": "Submit"
+  },
+  "expect": "pass"
+ },
+ {
+  "note": "not a guarded tool",
+  "tool_name": "mcp__playwright__browser_fill_form",
+  "tool_input": {
+   "url": "https://example.com/submit",
+   "element": "Submit"
+  },
+  "expect": "pass"
+ },
+ {
+  "note": "not a guarded tool",
+  "tool_name": "mcp__playwright__browser_select_option",
+  "tool_input": {
+   "url": "https://example.com/submit",
+   "element": "Submit"
+  },
+  "expect": "pass"
+ },
+ {
+  "note": "not a guarded tool",
+  "tool_name": "mcp__playwright__browser_take_screenshot",
+  "tool_input": {
+   "url": "https://example.com/submit",
+   "element": "Submit"
+  },
+  "expect": "pass"
+ },
+ {
+  "note": "not playwright",
+  "tool_name": "mcp__other__browser_click",
+  "tool_input": {
+   "element": "Submit"
+  },
+  "expect": "pass"
+ },
+ {
+  "note": "",
+  "tool_name": "Read",
+  "tool_input": {
+   "file_path": "tools/submit/submit_lever.js"
+  },
+  "expect": "pass"
+ },
+ {
+  "note": "tracker writes unguarded",
+  "tool_name": "Bash",
+  "tool_input": {
+   "command": "bin/gmh applied gh-brightwater-123 --workspace ws"
+  },
+  "expect": "pass"
+ },
+ {
+  "note": "tracker writes unguarded",
+  "tool_name": "Bash",
+  "tool_input": {
+   "command": "bin/gmh tracker set gh-brightwater-123 interviewing"
+  },
+  "expect": "pass"
+ },
+ {
+  "note": "tracker writes unguarded",
+  "tool_name": "Bash",
+  "tool_input": {
+   "command": "bin/gmh gmail apply ws/state/gmail/proposed.json --rows 1-3"
+  },
+  "expect": "pass"
+ },
+ {
+  "note": "tracker writes unguarded",
+  "tool_name": "Bash",
+  "tool_input": {
+   "command": "cat docs/GUIDE.md"
+  },
+  "expect": "pass"
+ }
+]

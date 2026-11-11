@@ -1,0 +1,13 @@
+{
+  "description": "get-me-hired: block a step that submits an application; the user submits in the browser (hooks/approval_guard.js)",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^mcp__?(plugin_[A-Za-z0-9_-]+_)?playwright_+browser_(run_code_unsafe|run_code|evaluate|click|type|press_key)$",
+        "hooks": [
+          {"type": "command", "command": "node \"${PLUGIN_ROOT}/hooks/approval_guard.js\" --mode deny", "timeout": 10}
+        ]
+      }
+    ]
+  }
+}

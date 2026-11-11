@@ -1,0 +1,39 @@
+{
+ "_note": "Fictional Chief of Staff postings for tests/test_discover_score.py. 'ats' maps ats -> slug -> raw posting fields; 'boards' maps a job board -> postings.",
+ "companies_txt": "# fixture watchlist\nAcme Robotics | acme\nGlobex | globex\nNowhere Corp | nowhere\n",
+ "ats": {
+  "greenhouse": {
+   "acme": [
+    {"id": "gh-acme-1", "title": "Chief of Staff to the CEO", "location": "New York, NY", "url": "https://boards.greenhouse.io/acme/jobs/1", "posted_at": "2026-10-15",
+     "description": "About the role\nPartner with the CEO to run the operating cadence.\n\nRequirements\n- 7+ years in strategy consulting or operating roles\n- Ran OKR and annual planning cycles\n- Prepared board materials and supported fundraising\n- Strong financial modeling and executive communication\n\nBenefits\nThe base pay range is $220,000 - $260,000."},
+    {"id": "gh-acme-2", "title": "Executive Assistant to the Chief of Staff", "location": "New York, NY", "url": "https://boards.greenhouse.io/acme/jobs/2", "posted_at": "2026-10-15", "description": "Calendar management."},
+    {"id": "gh-acme-3", "title": "Senior Software Engineer, Business Operations", "location": "Remote - US", "url": "https://boards.greenhouse.io/acme/jobs/3", "posted_at": "2026-10-15", "description": "Build internal tools."},
+    {"id": "gh-acme-4", "title": "Chief of Staff, Engineering", "location": "London, UK", "url": "https://boards.greenhouse.io/acme/jobs/4", "posted_at": "2026-10-15", "description": "London office."},
+    {"id": "gh-acme-5", "title": "Strategy & Operations Manager", "location": "Remote - US", "url": "https://boards.greenhouse.io/acme/jobs/5", "posted_at": "2026-10-15", "description": "Requirements: 4+ years. Pay range $120,000 - $150,000."},
+    {"id": "gh-acme-6", "title": "Business Operations Lead", "location": "Remote - US", "url": "https://boards.greenhouse.io/acme/jobs/6", "posted_at": "2026-10-15",
+     "description": "Requirements: run planning and OKRs across teams; build financial models; partner with the executive team on board materials."},
+    {"id": "gh-acme-7", "title": "Chief of Staff, Product", "location": "San Francisco, CA", "url": "https://boards.greenhouse.io/acme/jobs/7", "posted_at": "2026-10-15",
+     "description": "You will be in the office 4 days a week. Requirements: run the operating cadence and OKRs. Pay range $200,000 - $240,000."}
+   ]
+  },
+  "ashby": {
+   "globex": [
+    {"id": "ab-globex-1", "title": "Head of Strategy", "location": "New York", "url": "https://jobs.ashbyhq.com/globex/1", "posted_at": "2026-10-12", "salary_min": 250000, "salary_max": 300000,
+     "description": "Qualifications: investment banking or private equity background required; experience with government affairs and public sector partners; lead corporate strategy and board materials."},
+    {"id": "ab-globex-2", "title": "Chief of Staff, Operations", "location": "Remote (US)", "remote": true, "url": "https://jobs.ashbyhq.com/globex/2", "posted_at": "2026-10-12", "salary_min": 190000, "salary_max": 230000,
+     "description": "Requirements: OKRs and planning."}
+   ]
+  }
+ },
+ "boards": {
+  "himalayas": [
+   {"id": "hm-initech-cos", "source": "himalayas", "company": "Initech", "title": "Chief of Staff", "location": "United States", "remote": true,
+    "url": "https://himalayas.app/companies/initech/jobs/chief-of-staff", "apply_url": "https://initech.example/careers/cos", "posted_at": "2026-10-18",
+     "description": "Requirements: own the OKR process, annual planning and board materials for our CEO."},
+   {"id": "hm-acme-cos", "source": "himalayas", "company": "Acme Robotics", "title": "Chief of Staff to the CEO", "location": "United States", "remote": true,
+    "url": "https://himalayas.app/companies/acme/jobs/cos", "apply_url": "https://boards.greenhouse.io/acme/jobs/1", "posted_at": "2026-10-18", "description": "Same role as the Greenhouse posting."},
+   {"id": "hm-hooli-ea", "source": "himalayas", "company": "Hooli", "title": "Executive Assistant", "location": "United States", "remote": true,
+    "url": "https://himalayas.app/companies/hooli/jobs/ea", "posted_at": "2026-10-18", "description": "Support the CEO."}
+  ]
+ }
+}

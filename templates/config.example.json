@@ -1,0 +1,45 @@
+{
+  "_note": "Pipeline settings. Lives in your workspace. Values here override the engine defaults (engine/profile.py DEFAULT_CONFIG).",
+  "salary": {
+    "floor_usd": 180000,
+    "floor_cad": null,
+    "_floor_meaning": "Floors are per currency and never converted. floor_cad applies to ranges written in Canadian dollars (C$, CA$, CAD); with it unset a CAD range is not dropped for pay.",
+    "rule": "top_of_range",
+    "no_range_policy": "include_if_level_fits",
+    "down_level_below": 200000,
+    "_down_level_meaning": "With no level word in the title, a posted top under this flags a possible down-level."
+  },
+  "locations": {
+    "home": "Chicago",
+    "remote_countries": ["US"],
+    "_remote_countries_meaning": "Where Remote postings may be hired: [\"US\"], [\"US\", \"CA\"] or [\"CA\"]. The older remote_us: true means [\"US\"]; false means no Remote match.",
+    "metros": [
+      {"name": "Chicago", "policy": "any"},
+      {"name": "NYC", "policy": "any"},
+      {"name": "SF", "policy": "hybrid_ok", "max_office_days": 2}
+    ],
+    "top": ["Chicago", "Remote"],
+    "top_bonus": 5,
+    "_top_meaning": "Optional first-choice locations (metro names above, or Remote). Roles there get top_bonus fit points and show in green on the review page; the other metros are second tier. Leave top empty for one tier.",
+    "_metros_meaning": "Known names (LA, SF, NYC, Chicago, Seattle, Austin, Boston, DC, Denver; Canada: Toronto, Vancouver, Montreal, Ottawa, Calgary, Edmonton, Waterloo) have built-in patterns; any other metro needs a 'pattern' regex. Pay bands are judged for home first, then remote, then the rest in this order."
+  },
+  "scoring": {"tier_a": 70, "tier_b": 55, "near_miss_margin": 5},
+  "per_company": {"max_applications": 5, "window_days": 90},
+  "paths": {"soffice": null},
+  "resume": {
+    "_layout_note": "Set pages and page_breaks after your first build looks right, e.g. pages 2 and {\"first_on_page_2\": \"experience[2]\"}; until then neither is checked. max_pages: the resume may not run past this many pages. max_scope_lines: a job's scope line fits on this many lines or fewer. min_last_line_words: a bullet's last line has at least this many words (no one-word orphans). max_page1_free_pt: page 1 may leave at most this many points empty at the bottom. skills_lines (optional, not set here): the exact line count of the skills paragraph.",
+    "pages": null,
+    "page_breaks": {},
+    "max_bullet_lines": 2,
+    "max_summary_lines": 4,
+    "max_extra_bullets": 1,
+    "max_pages": 2,
+    "max_scope_lines": 2,
+    "min_last_line_words": 3,
+    "max_page1_free_pt": 40,
+    "font": null
+  },
+  "since_days": 14,
+  "linkedin": {"_note": "LinkedIn follow-up covers roles applied through get-me-hired, plus Gmail-imported ones applied within this many days.", "gmail_followup_days": 7},
+  "sources": {}
+}

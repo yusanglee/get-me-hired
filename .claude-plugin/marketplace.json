@@ -1,0 +1,13 @@
+{
+  "name": "get-me-hired",
+  "owner": {"name": "Yusang Lee"},
+  "metadata": {"description": "get-me-hired, a job-search plugin for Claude Code"},
+  "plugins": [
+    {
+      "name": "get-me-hired",
+      "source": "./",
+      "description": "Job search with approval gates: find roles, score them against your background, tailor your resume from approved bullets, fill application forms up to Submit, and track every application.",
+      "version": "1.0.0"
+    }
+  ]
+}

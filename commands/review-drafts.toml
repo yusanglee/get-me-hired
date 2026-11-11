@@ -1,0 +1,2 @@
+description = "Has a fresh-context reviewer check drafted cover letters and free-text answers and applies its edits, asking the user only about drafts whose checks stay open. Use after a role's drafts are filed and before application notes are built."
+prompt = "Use the get-me-hired review-drafts skill. {{args}}"

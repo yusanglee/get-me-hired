@@ -1,0 +1,2 @@
+description = "After an application is in, opens the company's LinkedIn Jobs tab for \"I'm interested\" (the user clicks), then builds a table of up to 5 people with a ready-to-paste connect note each (the user sends). Use when the user asks, usually once the day's applications are in."
+prompt = "Use the get-me-hired linkedin-followup skill. {{args}}"

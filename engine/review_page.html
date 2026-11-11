@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Run Review __RUN_DATE__</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600&display=swap">
+<style>
+/* Layout: one worklist column. Summary and tier strip on top, tier groups (A/B/C+ open, the rest folded
+   but counted), dropped roles last, a sticky picks bar at the bottom. Tier color is state, not decoration. */
+:root {
+  /* Dark by default (it reads better for long review sessions); light only when the host or the user asks. */
+  --bg: #11151d; --panel: #181e29; --ink: #e4e8f0; --muted: #98a2b6; --line: #2a3242; --accent: #86a6ff; --soft: #1f2838;
+  --t-a: #5cc98f; --t-b: #6bb5de; --t-cp: #e0a63a; --t-c: #9aa3b6; --t-cap: #b58cf0; --t-gap: #f0a05a; --t-gate: #f07a6e; --t-drop: #b8aa98;
+  --display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme: dark;
+}
+:root[data-theme="light"] {
+  --bg: #f3f5f8; --panel: #ffffff; --ink: #18202f; --muted: #5a6477; --line: #dbe0e8; --accent: #2b55c7;
+  --soft: #e9eef8;
+  --t-a: #1d7a4c; --t-b: #276c93; --t-cp: #9a6500; --t-c: #677086; --t-cap: #7348ad; --t-gap: #b5530f; --t-gate: #b42a20; --t-drop: #7b6f62;
+  color-scheme: light }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font: 15px/1.5 var(--body); }
+.wrap { max-width: 980px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 24px 0; display: grid; gap: 20px }
+header { display: grid; gap: 6px }
+.eyebrow { font: 500 12px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted) }
+h1 { font: 600 30px/1.1 var(--display); margin: 0; text-wrap: balance }
+.lede { margin: 0; color: var(--muted); max-width: 70ch }
+.lede p { margin: 2px 0 }
+.strip { display: flex; flex-wrap: wrap; gap: 8px }
+.chip { --c: var(--muted); display: inline-flex; align-items: baseline; gap: 6px; padding: 5px 10px; border: 1px solid var(--line);
+  border-radius: 999px; background: var(--panel); color: var(--ink); font: 500 13px/1.2 var(--body); cursor: pointer }
+.chip b { font: 500 14px/1 var(--mono); color: var(--c); font-variant-numeric: tabular-nums }
+.chip:hover { border-color: var(--c) }
+.tools { display: flex; gap: 10px; flex-wrap: wrap; align-items: center }
+#q { flex: 1 1 260px; min-width: 0; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel);
+  color: var(--ink); font: 15px var(--body) }
+#q:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.hint { color: var(--muted); font-size: 13px }
+details.group { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden }
+details.group > summary { list-style: none; cursor: pointer; display: flex; gap: 10px; align-items: baseline; padding: 12px 14px;
+  border-left: 4px solid var(--c, var(--muted)) }
+details.group > summary::-webkit-details-marker { display: none }
+details.group > summary::before { content: "▸"; color: var(--muted); font-size: 12px; transition: transform .15s }
+details.group[open] > summary::before { transform: rotate(90deg) }
+.gname { font: 600 17px/1.2 var(--display) }
+.gcount { font: 500 13px var(--mono); color: var(--muted) }
+.gdesc { color: var(--muted); font-size: 13px; flex: 1 1 200px; min-width: 0 }
+.rows { display: grid; border-top: 1px solid var(--line) }
+.role { display: grid; gap: 6px; padding: 12px 14px; border-bottom: 1px solid var(--line) }
+.role:last-child { border-bottom: 0 }
+.role[data-pick] { background: var(--soft) }
+.top { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap }
+.ref { font: 500 13px var(--mono); color: var(--muted); min-width: 3ch }
+.co { font-weight: 600 }
+.ttl { min-width: 0 }
+.tag { font: 500 11px/1 var(--mono); padding: 4px 8px; border-radius: 4px; border: 1px solid currentColor; color: var(--c, var(--muted));
+  letter-spacing: .03em; text-transform: uppercase }
+.meta { display: flex; flex-wrap: wrap; gap: 4px 14px; color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums }
+.meta .num { font-family: var(--mono) }
+.why { font-size: 14px }
+.calc { font: 12px/1.5 var(--mono); color: var(--muted); overflow-wrap: anywhere }
+.pills { display: flex; flex-wrap: wrap; gap: 6px }
+.pill { font-size: 12px; padding: 4px 9px; border-radius: 4px; background: var(--soft); color: var(--ink) }
+.pill.gap, .crit { color: var(--t-gate) }
+.crit { font-weight: 600 }
+.loc-top { color: var(--t-a); font-weight: 600 }
+.pill.str { background: none; border: 1px solid var(--line) }
+.pill.str.ex { border-color: var(--t-a); color: var(--t-a); font-weight: 600 }
+.gapq { font-size: 14px; border-left: 3px solid var(--t-gap); padding: 2px 0 2px 10px; overflow-wrap: anywhere }
+.gapq q { display: block; color: var(--muted); font-style: italic }
+.act { display: flex; flex-wrap: wrap; gap: 8px; align-items: center }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 7px; overflow: hidden }
+.seg button { border: 0; background: var(--panel); color: var(--ink); font: 500 13px var(--body); padding: 6px 11px; cursor: pointer }
+.seg button + button { border-left: 1px solid var(--line) }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--panel) }
+.seg button.inh[aria-pressed="true"] { background: var(--soft); color: var(--accent); box-shadow: inset 0 -3px 0 var(--accent) }
+.bulk { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; padding: 9px 14px; background: var(--bg);
+  border-bottom: 1px solid var(--line); font-size: 13px; color: var(--muted) }
+.bulk .seg button { padding: 4px 10px; font-size: 12px }
+.note { flex: 1 1 200px; min-width: 0; padding: 6px 9px; border: 1px solid var(--line); border-radius: 7px; background: var(--panel);
+  color: var(--ink); font: 13px var(--body) }
+a.link { color: var(--accent); font-size: 13px; text-decoration: none }
+a.link:hover { text-decoration: underline }
+.sub { padding: 8px 14px; font: 600 13px var(--body); color: var(--muted); background: var(--bg); border-bottom: 1px solid var(--line) }
+.more { margin: 10px 14px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 7px; background: var(--panel); color: var(--ink); cursor: pointer }
+.empty { padding: 14px; color: var(--muted) }
+.drophead { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; padding: 10px 2px 0; border-top: 1px solid var(--line) }
+.bar { position: sticky; bottom: 0; margin-top: 8px; background: var(--panel); border-top: 1px solid var(--line);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 10px calc(10px + env(safe-area-inset-bottom, 0px)) }
+.bar .in { max-width: 948px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center }
+#picktext { flex: 1 1 280px; min-width: 0; font: 13px/1.4 var(--mono); padding: 7px 9px; border: 1px solid var(--line); border-radius: 7px;
+  background: var(--bg); color: var(--ink); resize: vertical; min-height: 34px }
+.btn { padding: 8px 14px; border-radius: 7px; border: 1px solid var(--accent); background: var(--accent); color: var(--panel); font: 600 13px var(--body); cursor: pointer }
+.btn.second { background: var(--panel); color: var(--accent) }
+.btn:disabled { opacity: .6; cursor: progress }
+#status { font-size: 12px; color: var(--muted); flex-basis: 100% }
+.foot { color: var(--muted); font-size: 12px; padding-bottom: 12px }
+@media (max-width: 520px) { h1 { font-size: 25px } .seg button { padding: 6px 9px } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow" id="eyebrow">Discover and score run</div>
+    <h1 id="h1">Run review</h1>
+    <div class="lede" id="lede"></div>
+  </header>
+  <div class="strip" id="strip"></div>
+  <div class="tools">
+    <input id="q" type="search" placeholder="Search every role, kept or dropped: company, title, gap, flag" aria-label="Search roles">
+    <span class="hint" id="qhint"></span>
+  </div>
+  <main id="groups" style="display:grid;gap:14px"></main>
+  <div class="foot" id="foot"></div>
+</div>
+<div class="bar">
+  <div class="in">
+    <strong id="pickcount">No picks yet</strong>
+    <textarea id="picktext" rows="1" readonly aria-label="Picks as text for Claude"></textarea>
+    <button class="btn" id="confirm" type="button" hidden>Confirm choices</button>
+    <button class="btn" id="copy" type="button">Copy picks</button>
+    <span id="status">Pick roles above, one by one or a whole section at once (a role you pick by hand keeps its own call). Then paste the copied line in chat, and Claude writes the reviewed CSV.</span>
+  </div>
+</div>
+
+<script>
+const DATA = /*__RUN_DATA__*/null;
+const CALLS = ['apply', 'hold', 'pass', 'manual'];
+const TIERS = [
+  ['A', 'Tier A', 'Strongest fit. Sent to review.', '--t-a', true],
+  ['B', 'Tier B', 'Good fit. Sent to review.', '--t-b', true],
+  ['C+', 'Near miss', 'Just under the B line. Sent to review because a score this close is noise.', '--t-cp', true],
+  ['gap', 'Critical gap', 'A posting read found a gap you likely can’t close, so it was taken out of review. Pick one to rescue it.', '--t-gap', false],
+  ['cap', 'Company cap', 'Would have been reviewed, but the company already has enough applications or higher-ranked roles.', '--t-cap', false],
+  ['C', 'Tier C', 'Scored below the review line. Pick one to promote it.', '--t-c', false],
+  ['gate', 'Hard gate', 'Ineligible as posted (work authorization, clearance, language, or a look-alike link). Not scored.', '--t-gate', false],
+];
+const REASONS = {
+  already_applied: 'Already applied', in_workflow: 'In Workflow, not applied', duplicate: 'Same role, another location',
+  location: 'Location outside your rules', salary: 'Pay below your floor', no_range_level: 'No range, title not senior', no_range: 'No posted pay range',
+  passed: 'Passed in an earlier review', already_picked: 'Picked in an earlier review',
+};
+const DROP_ORDER = ['already_applied', 'in_workflow', 'already_picked', 'passed', 'duplicate', 'location', 'salary', 'no_range_level', 'no_range'];
+const PAGE = 150;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+const cap = c => c[0].toUpperCase() + c.slice(1);
+const money = n => n ? '$' + Math.round(n / 1000) + 'k' : '';
+
+let picks = {};   // id -> {call, note}: picked by hand (or saved in the run record); 'skip' = left out of a section call
+let sections = {};  // section id -> {call, ids}: a section-wide call for the rows it listed when pressed
+// Drops listed only under "show all" come as compact rows (cols + rows); the lowest-fit ones may be left off the
+// page to keep it small enough to publish (DATA.omitted counts them per reason; they stay in the run record).
+const expand = h => (h && h.rows || []).map(r => Object.fromEntries(h.cols.map((c, i) => [c, r[i]]).filter(([, v]) => v !== null && v !== undefined)));
+const asRows = x => Array.isArray(x) ? x : expand(x);
+// Roles come as a table too, with score parts and posting reads as arrays in the orders DATA.shape names.
+const SHAPE = (DATA && DATA.shape) || {};
+const unpack = (keys, a) => Array.isArray(a) && keys ? Object.fromEntries(keys.map((k, i) => [k, a[i]]).filter(([, v]) => v !== null && v !== undefined)) : a;
+const roles = asRows((DATA && DATA.roles) || []).map(r => {
+  const read = unpack(SHAPE.read, r.read);
+  if (read && read.strengths) read.strengths = read.strengths.map(s => unpack(SHAPE.strength, s));
+  return Object.assign(r, {parts: unpack(SHAPE.parts, r.parts), read, gaps: r.gaps || [], flags: r.flags || []});
+});
+const drops = [...asRows(DATA && DATA.dropped), ...expand(DATA && DATA.hidden)];
+const OMIT = (DATA && DATA.omitted) || {};
+const omittedN = Object.values(OMIT).reduce((a, b) => a + b, 0);
+const byId = Object.fromEntries([...drops.filter(d => d.ref).map(d => [d.id, d]), ...roles.map(r => [r.id, r])]);
+const order = r => typeof r.ref === 'number' ? r.ref : 100000 + Number(String(r.ref).slice(1));
+const saved = (DATA && DATA.picks) || {};
+const LS = 'gmh-picks-' + (DATA ? DATA.date : ''), LS_SEC = LS + '-sections';
+const shown = {};  // drop reason -> how many rows to show
+const showAll = {};  // drop reason -> true once the viewer asks for the rows not listed by default (location)
+const listed = {};  // section id -> ids of the rows it lists now (a section call covers these)
+const opened = {};  // group id -> open, once the viewer has toggled it (a re-render keeps it)
+const isOpen = (id, dflt, q, hits) => q ? hits > 0 : (id in opened ? opened[id] : dflt);
+
+function initPicks() {
+  for (const [id, p] of Object.entries(saved)) if (byId[id]) picks[id] = {call: p.call, note: p.note || ''};
+  try { Object.assign(picks, JSON.parse(localStorage.getItem(LS) || '{}')); } catch (e) {}
+  try {
+    for (const [g, v] of Object.entries(JSON.parse(localStorage.getItem(LS_SEC) || '{}'))) {
+      const ids = (v.ids || []).filter(id => byId[id]);
+      if (CALLS.includes(v.call) && ids.length) sections[g] = {call: v.call, ids};
+    }
+  } catch (e) {}
+}
+function store() { try { localStorage.setItem(LS, JSON.stringify(picks)); localStorage.setItem(LS_SEC, JSON.stringify(sections)); } catch (e) {} }
+
+// ---- pick logic: Node tests run this block on its own (tests/test_review_page.py) ----
+// The call a role ends up with: its own pick wins; otherwise the latest section call that covers it.
+function pickOf(id) {
+  const own = picks[id];
+  if (own) return own.call === 'skip' || own.call === 'clear' ? null : {call: own.call, note: own.note || '', inherited: false};
+  for (const s of Object.values(sections)) if (s.ids.includes(id)) return {call: s.call, note: '', inherited: true};
+  return null;
+}
+// Every call the copied line carries: own picks (including 'clear' for a saved pick taken back) and section calls.
+function effective() {
+  const out = {};
+  for (const s of Object.values(sections)) for (const id of s.ids) out[id] = {call: s.call, note: ''};
+  for (const [id, p] of Object.entries(picks)) {
+    if (p.call === 'skip') delete out[id];
+    else out[id] = {call: p.call, note: p.note || ''};
+  }
+  return out;
+}
+// Refs in order, consecutive ones joined: [3, 4, 5, 9, 'd2', 'd3'] -> '3-5 9 d2-3' (gmh review picks reads ranges).
+function compact(refs) {
+  const num = r => typeof r === 'number' ? r : Number(String(r).slice(1)), pre = r => typeof r === 'number' ? '' : 'd';
+  const out = [];
+  for (let i = 0; i < refs.length;) {
+    let j = i;
+    while (j + 1 < refs.length && pre(refs[j + 1]) === pre(refs[i]) && num(refs[j + 1]) === num(refs[j]) + 1) j++;
+    out.push(j - i >= 2 ? `${refs[i]}-${num(refs[j])}` : refs.slice(i, j + 1).join(' '));
+    i = j + 1;
+  }
+  return out.join(' ');
+}
+function pickText() {
+  const segs = [], plain = {};
+  const live = Object.entries(effective()).filter(([id]) => byId[id]).sort((a, b) => order(byId[a[0]]) - order(byId[b[0]]));
+  for (const [id, p] of live) {
+    const ref = byId[id].ref, note = (p.note || '').replace(/[;\n]+/g, ',').trim();
+    if (note && p.call !== 'clear') segs.push(`${p.call} ${ref}: ${note}`);
+    else (plain[p.call] = plain[p.call] || []).push(ref);
+  }
+  return [...CALLS, 'clear'].filter(c => plain[c]).map(c => `${c} ${compact(plain[c])}`).concat(segs).join('; ');
+}
+// A role's button: pressing a new call picks it by hand; pressing the active one takes the role's call away.
+function toggleRole(id, call) {
+  const cur = pickOf(id);
+  if (!cur || cur.call !== call) { picks[id] = {call, note: cur ? cur.note : ''}; return; }
+  if (cur.inherited) { picks[id] = {call: saved[id] ? 'clear' : 'skip', note: ''}; return; }
+  delete picks[id];
+  if (saved[id]) picks[id] = {call: 'clear', note: ''};
+  else if (pickOf(id)) picks[id] = {call: 'skip', note: ''};  // a section call would show through
+}
+// A section's button: sets that call for the rows listed now; pressing the active one again removes it.
+function toggleSection(g, call, ids) {
+  if (sections[g] && sections[g].call === call) delete sections[g];
+  else sections[g] = {call, ids};
+}
+// ---- end pick logic ----
+
+function hay(o) { return [o.company, o.title, o.locations, o.location, o.why, o.reason && REASONS[o.reason], ...(o.gaps || []), ...(o.flags || []), o.source, o.ref && '#' + o.ref].join(' ').toLowerCase(); }
+const query = () => $('#q').value.trim().toLowerCase();
+const match = (o, q) => !q || q.split(/\s+/).every(w => hay(o).includes(w));
+const COUNTRY = {intl: 'outside the US', '': 'location unclear'};
+// Which location drops are listed before "show all" (config review.location_drops), in words.
+const LD = (DATA && DATA.location_drops) || {tiers: ['A'], us_only: true};
+const LD_RULE = `would-be tier ${LD.tiers.join(' or ')}${LD.us_only ? ' in the US' : ''}`;
+const LD_TOP = ['A', 'B', 'C+', 'C'].slice(0, LD.tiers.length).every(t => LD.tiers.includes(t));
+const LD_REST = [LD_TOP ? `below tier ${LD.tiers[LD.tiers.length - 1]}` : 'other tiers'].concat(LD.us_only ? ['outside the US'] : []).join(', or ');
+
+function calc(r) {
+  const p = r.parts;
+  if (!p) return '';
+  const sg = n => (n < 0 ? '− ' + -n : '+ ' + n);
+  // regex signals aren't readable; count them instead. The page carries up to 7 plain labels and the total.
+  const plain = p.strength_hits.filter(h => /^[\w\s'&-]+$/.test(h));
+  const n = p.strength_n ?? p.strength_hits.length, allPlain = p.strength_plain ?? plain.length === p.strength_hits.length;
+  const st = n ? ' (' + (allPlain ? plain.slice(0, 6).join(', ') + (n > 6 ? ', …' : '') : n + ' signals') + ')' : '';
+  const gp = p.gap_hits.length ? ' (' + p.gap_hits.map(g => Array.isArray(g) ? g[0] : g).join(', ') + ')' : '';
+  const lc = p.location ? ` ${sg(p.location)} location (${(r.top_locations || []).join(', ')})` : '';
+  return `fit ${r.fit} = ${p.base} base ${sg(p.strengths)} strengths${st} ${sg(p.gaps)} gaps${gp} ${sg(p.level)} level ${sg(p.ats)} keywords (ATS ${r.ats}%)${lc}` +
+    (r.fit === 0 || r.fit === 100 ? ', clamped' : '');
+}
+
+// Matched locations, with first-choice ones (config locations.top) in green; raw location text when none matched.
+function locHTML(o) {
+  const top = o.top_locations || [], names = o.locations ? o.locations.split('/') : [];
+  if (!names.length) return esc(o.location_raw || o.location || '');
+  return names.map(n => top.includes(n) ? `<span class="loc-top" title="First-choice location">${esc(n)}</span>` : esc(n)).join('/');
+}
+
+// A posting read's badges: gap type (none shows nothing) and up to 3 strengths, excellent ones marked.
+const GAP_COLOR = {minor: '--muted', major: '--t-cp', critical: '--t-gate'};
+function readTag(rd) {
+  return rd && GAP_COLOR[rd.gap_type] ? `<span class="tag" style="--c:var(${GAP_COLOR[rd.gap_type]})"${rd.top_gap ? ` title="${esc(rd.top_gap)}"` : ''}>${esc(rd.gap_type)} gap</span>` : '';
+}
+// The gap itself, in view next to its badge: what the read found and the posting's words for it.
+function gapBlock(rd, dflt) {
+  return `<div class="gapq"><b>${esc(rd.top_gap || dflt)}</b>${rd.gap_quote ? `<q>${esc(rd.gap_quote)}</q>` : ''}</div>`;
+}
+function readPills(rd) {
+  return ((rd && rd.strengths) || []).slice(0, 3).map(s => `<span class="pill str${s.level === 'excellent' ? ' ex' : ''}" title="${esc(s.level)}${s.posting ? ': ' + esc(s.posting) : ''}">${s.level === 'excellent' ? 'excellent: ' : ''}${esc(s.label)}</span>`).join('');
+}
+
+function roleHTML(r) {
+  const pk = pickOf(r.id), rd = r.read;
+  const meta = [locHTML(r), r.salary_max ? `<span class="num">${money(r.salary_min)}${r.salary_min ? '–' : 'top '}${money(r.salary_max)}</span>` + (String(r.salary_source || '').startsWith('read') ? `<span title="${esc(((rd && rd.pay) || {}).quote || '')}"> (from the posting read)</span>` : '') : 'no posted range',
+    `<span class="num">fit ${esc(r.fit)} · ATS ${esc(r.ats)}%</span>`, esc(r.source), r.new ? 'new today' : (r.first_seen ? 'first seen ' + esc(r.first_seen) : '')].filter(Boolean);
+  return `<article class="role" data-id="${esc(r.id)}"${pk ? ' data-pick="' + pk.call + '"' : ''}>
+    <div class="top"><span class="ref">#${r.ref}</span><span class="co">${esc(r.company)}</span><span class="ttl">${esc(r.title)}</span>
+      ${r.tier === 'cap' ? `<span class="tag" style="--c:var(--t-cap)">would be ${esc(r.base_tier)}</span>` : ''}
+      ${r.tier === 'gap' ? `<span class="tag" style="--c:var(--t-${{A: 'a', B: 'b', 'C+': 'cp'}[r.base_tier] || 'c'})">would be ${esc(r.base_tier)}</span>` : ''}${readTag(rd)}</div>
+    <div class="meta">${meta.map(m => `<span>${m}</span>`).join('')}</div>
+    ${r.tier === 'gap' && rd ? gapBlock(rd, 'Critical gap') : `<div class="why">${esc(r.why)}</div>${rd && (rd.gap_type === 'major' || rd.gap_type === 'critical') ? gapBlock(rd, rd.gap_type[0].toUpperCase() + rd.gap_type.slice(1) + ' gap') : ''}`}
+    ${r.parts ? `<div class="calc">${esc(calc(r))}</div>` : ''}
+    ${(r.gaps.length || r.flags.length || (rd && (rd.strengths || []).length)) ? `<div class="pills">${readPills(rd)}${r.gaps.map(g => `<span class="pill gap">gap: ${esc(g)}</span>`).join('')}${r.flags.map(f => `<span class="pill">${esc(f)}</span>`).join('')}</div>` : ''}
+    ${controls(r, pk)}</article>`;
+}
+
+function controls(r, pk) {
+  const tag = typeof r.ref === 'number' ? '#' + r.ref : r.ref;
+  return `<div class="act">
+      <span class="seg" role="group" aria-label="Pick for ${tag}">${CALLS.map(c => `<button type="button" data-call="${c}" aria-pressed="${!!pk && pk.call === c}"${pk && pk.inherited && pk.call === c ? ' class="inh" title="Set for the whole section; press to leave this role out"' : ''}>${cap(c)}</button>`).join('')}</span>
+      ${pk ? `<input class="note" id="note-${r.ref}" placeholder="Note for Claude (optional)" value="${esc(pk.note)}">` : ''}
+      ${r.url ? `<a class="link" href="${esc(r.url)}" target="_blank" rel="noopener">Posting ↗</a>` : ''}
+    </div>`;
+}
+
+function dropHTML(d) {
+  const pk = pickOf(d.id);
+  const meta = [esc(d.detail), (d.top_locations || []).length || !d.location ? locHTML(d) : esc(d.location), d.salary_max ? 'top ' + money(d.salary_max) : 'no posted range', esc(d.source),
+    d.postings > 1 ? d.postings + ' postings' : ''].filter(Boolean);
+  const would = d.fit !== undefined ? (d.would_be === 'gate' ? `Would fail a hard gate if rescued (fit ${d.fit} · ATS ${d.ats}%): ${esc(d.gate)}`
+    : `Would have scored fit ${d.fit} (tier ${esc(d.would_be)}) · ATS ${d.ats}%`) : '';
+  const pr = d.prior;
+  const prior = pr ? `Earlier review, ${esc(pr.date)}: passed${pr.gap_type ? ` · <span${pr.gap_type === 'critical' ? ' class="crit"' : ''}>${esc(pr.gap_type)} gap${pr.gap_date && pr.gap_date !== pr.date ? ' (' + esc(pr.gap_date) + ')' : ''}</span>${pr.top_gap ? ': ' + esc(pr.top_gap) : ''}` : ' · no gap recorded'}${pr.notes ? ' · ' + esc(pr.notes) : ''}` : '';
+  return `<article class="role drop-role" data-id="${esc(d.id)}"${pk ? ' data-pick="' + pk.call + '"' : ''}>
+    <div class="top"><span class="ref">${esc(d.ref)}</span><span class="co">${esc(d.company)}</span><span class="ttl">${esc(d.title)}</span>
+      ${d.would_be && d.would_be !== 'C' ? `<span class="tag" style="--c:var(--t-${{A: 'a', B: 'b', 'C+': 'cp', gate: 'gate'}[d.would_be]})">${d.would_be === 'gate' ? 'fails gate' : 'would be ' + esc(d.would_be)}</span>` : ''}
+      ${pr && pr.gap_type === 'critical' ? `<span class="tag" style="--c:var(--t-gate)">critical gap</span>` : ''}
+      ${'country' in d && d.country !== 'us' ? `<span class="tag">${COUNTRY[d.country]}</span>` : ''}</div>
+    <div class="meta">${meta.map(m => `<span>${m}</span>`).join('')}</div>
+    ${prior ? `<div class="why">${prior}</div>` : ''}
+    ${would ? `<div class="why">${would}</div>` : ''}
+    ${((d.gaps || []).length || (d.flags || []).length) ? `<div class="pills">${(d.gaps || []).map(g => `<span class="pill gap">gap: ${esc(g)}</span>`).join('')}${(d.flags || []).map(f => `<span class="pill">${esc(f)}</span>`).join('')}</div>` : ''}
+    ${controls(d, pk)}</article>`;
+}
+
+// Section-wide calls for the rows a section lists now (search and "show all" decide which).
+function bulkHTML(g, list) {
+  listed[g] = list.map(r => r.id);
+  const s = sections[g], mine = list.filter(r => picks[r.id]);
+  const out = mine.filter(r => ['skip', 'clear'].includes(picks[r.id].call)).length, own = mine.length - out;
+  const label = query() ? `All ${list.length} matching` : `All ${list.length} here`;
+  return `<div class="bulk"><span>${label}:</span>
+    <span class="seg" role="group" aria-label="${label}">${CALLS.map(c => `<button type="button" data-bulk="${c}" data-sec="${g}" aria-pressed="${!!s && s.call === c}">${cap(c)} all</button>`).join('')}</span>
+    ${s ? `<span>${cap(s.call)} set for ${s.ids.length}${own ? `; ${own} picked by hand ${own > 1 ? 'keep their' : 'keeps its'} own call` : ''}${out ? `; ${out} left out` : ''}. Press again to undo.</span>` : ''}</div>`;
+}
+
+function render() {
+  const q = query(), out = [];
+  let hits = 0;
+  for (const [t, name, desc, color, open] of TIERS) {
+    const all = roles.filter(r => r.tier === t);
+    if (!all.length) continue;
+    const list = all.filter(r => match(r, q));
+    hits += list.length;
+    if (q && !list.length) continue;
+    out.push(`<details class="group" data-tier="${t}" id="g-${t.replace('+', 'p')}" ${isOpen('g-' + t.replace('+', 'p'), open, q, list.length) ? 'open' : ''} style="--c:var(${color})">
+      <summary><span class="gname">${name}</span><span class="gcount">${q ? list.length + ' of ' : ''}${all.length}</span><span class="gdesc">${desc}</span></summary>
+      <div class="rows">${bulkHTML('g-' + t.replace('+', 'p'), list)}${list.map(roleHTML).join('')}</div></details>`);
+  }
+  const dl = drops.filter(d => match(d, q));
+  hits += dl.length;
+  if ((drops.length || omittedN) && (!q || dl.length)) {
+    out.push(`<div class="drophead" id="g-drop"><span class="gname">Dropped before scoring</span><span class="gcount">${q ? dl.length + ' of ' : ''}${drops.length + omittedN}</span>
+      <span class="gdesc">Removed before scoring, one section per rule. Pick one to rescue it.</span></div>`);
+    const reasons = DROP_ORDER.concat([...new Set([...drops.map(d => d.reason), ...Object.keys(OMIT)])].filter(k => !DROP_ORDER.includes(k)));
+    for (const reason of reasons) {
+      const all = drops.filter(d => d.reason === reason), off = OMIT[reason] || 0;
+      if (!all.length && !off) continue;
+      const g = dl.filter(d => d.reason === reason).sort((a, b) => (b.fit ?? -1) - (a.fit ?? -1));
+      if (q && !g.length) continue;
+      // Rows with listed:false (location drops below A or outside the US) show on "show all" or when a search finds them.
+      const limited = all.some(d => d.listed === false), full = q || showAll[reason] || !limited;
+      const list = full ? g : g.filter(d => d.listed !== false);
+      const n = shown[reason] || PAGE, id = 'g-drop-' + reason;
+      const count = q ? `${g.length} of ${all.length + off}` : (limited && !full) || off ? `${list.length} of ${all.length + off} listed` : `${all.length}`;
+      const offNote = off && !q ? `<div class="empty">${all.length ? `${off} more` : `These ${off}`} aren’t on this page (it has a size limit; look-back sections and the lowest fit go first). They’re in the run record: ask Claude to list them (gmh review drops ${esc(reason)}), and rescue one by its number.</div>` : '';
+      const toggle = limited && !q ? `<button type="button" class="more" data-all="${reason}">${full
+        ? `List only ${LD_RULE}`
+        : `Show all ${all.length} (${all.length - list.length} more: ${LD_REST})`}</button>` : '';
+      out.push(`<details class="group" id="${id}" ${isOpen(id, false, q, g.length) ? 'open' : ''} style="--c:var(--t-drop)">
+        <summary><span class="gname">${esc(REASONS[reason] || reason)}</span><span class="gcount">${count}</span>
+        ${limited && !full ? `<span class="gdesc">Listed: ${LD_RULE}${LD.us_only ? ' (or where the posting doesn’t say)' : ''}.</span>` : ''}</summary>
+        <div class="rows">${list.length ? bulkHTML(id, list) : ''}${list.slice(0, n).map(dropHTML).join('') || '<div class="empty">None listed.</div>'}
+        ${list.length > n ? `<button type="button" class="more" data-more="${reason}">Show ${Math.min(PAGE, list.length - n)} more of ${list.length - n}</button>` : ''}${toggle}${offNote}</div></details>`);
+    }
+  }
+  $('#groups').innerHTML = out.join('') || `<div class="empty">${DATA ? 'No roles match “' + esc(q) + '”.' : 'No run data in this page.'}</div>`;
+  $('#qhint').textContent = q ? hits + ' matches' : '';
+  renderBar();
+}
+
+function header() {
+  if (!DATA) return;
+  const t = c => roles.filter(r => r.tier === c).length;
+  const d = DATA.discover || {}, s = (DATA.score || {}).settings || {};
+  const newN = roles.filter(r => r.new).length;
+  $('#eyebrow').textContent = `${DATA.date} · ${DATA.pack || 'pack'}`;
+  $('#h1').textContent = `${t('A') + t('B') + t('C+')} roles to review, ${roles.length - t('A') - t('B') - t('C+')} held back, ${drops.length + omittedN} dropped`;
+  $('#lede').innerHTML = `<p>${roles.length} roles scored, ${newN} first seen today.` +
+    (d.companies ? ` Watchlist: ${d.companies} companies, plus the job boards.` : '') + `</p>` +
+    (s.tier_a ? `<p>Lines: A at fit ${s.tier_a}, B at ${s.tier_b}${s.near_miss_margin ? `, near miss from ${s.tier_b - s.near_miss_margin}` : ''}. Company cap: ${s.cap} reviewable roles per ${s.window_days} days.</p>` : '');
+  const chips = TIERS.filter(([k]) => t(k)).map(([k, name, , c]) => `<button type="button" class="chip" data-jump="g-${k.replace('+', 'p')}" style="--c:var(${c})"><b>${t(k)}</b>${name}</button>`);
+  if (drops.length + omittedN) chips.push(`<button type="button" class="chip" data-jump="g-drop" style="--c:var(--t-drop)"><b>${drops.length + omittedN}</b>Dropped</button>`);
+  $('#strip').innerHTML = chips.join('');
+  $('#foot').textContent = `Run record: queue/run-${DATA.date}.json` + (d.unresolved && d.unresolved.length ? ` · Watchlist companies with no public board: ${d.unresolved.join(', ')}` : '');
+}
+
+function renderBar() {
+  const live = Object.values(effective()).filter(p => p.call !== 'clear');
+  const n = {};
+  live.forEach(p => n[p.call] = (n[p.call] || 0) + 1);
+  $('#pickcount').textContent = live.length ? `${live.length} pick${live.length > 1 ? 's' : ''}: ` + CALLS.filter(c => n[c]).map(c => `${n[c]} ${c}`).join(', ') : 'No picks yet';
+  $('#picktext').value = pickText();
+}
+
+function setPick(id, call, note) {
+  if (note === undefined) toggleRole(id, call);
+  else picks[id] = {call, note};  // a note makes a section call this role's own
+  store();
+  if (note === undefined) render(); else renderBar();
+}
+function status(s) { $('#status').textContent = s; }
+
+// Confirm choices (only on the claude.ai artifact, which declares db and comments): saves the picks line to the
+// artifact's db at picks/<date> and sends a short comment to the Claude session watching this page. Claude reads
+// it, shows the dry run in chat and writes nothing until the user says yes. A local file has no window.claude:
+// it keeps Copy picks only.
+let db = null, comments = null;
+async function lightUp() {
+  if (!DATA || !window.claude || !window.claude.use) return;
+  [db, comments] = await Promise.all([window.claude.use('db'), window.claude.use('comments')]);
+  if (!db) return;
+  $('#confirm').hidden = false;
+  $('#copy').classList.add('second');
+  status('Pick roles above, one by one or a whole section at once, then press Confirm choices. Claude shows what it will write in chat first.');
+  try {
+    const d = await db.doc('picks/' + DATA.date).get();
+    if (d.exists) status(`Last confirmed ${new Date(d.data().at).toLocaleString()}: ${d.data().count} picks. Confirm again after any change.`);
+  } catch (e) {}
+}
+async function confirmPicks() {
+  const line = pickText();
+  if (!line) { status('Nothing to confirm yet: pick a role first.'); return; }
+  const n = Object.values(effective()).filter(p => p.call !== 'clear').length;
+  const msg = `Run Review: picks confirmed for the ${DATA.date} run (${n} picks). They are saved at picks/${DATA.date} in this artifact's db.`;
+  const text = msg + (new TextEncoder().encode(msg + '\n\n' + line).length < 3800 ? '\n\n' + line : '');
+  $('#confirm').disabled = true;
+  status('Saving…');
+  let can = 'off';
+  try { if (comments) can = await comments.canSendToClaude(); } catch (e) {}
+  const [kept, sent] = await Promise.allSettled([
+    db.doc('picks/' + DATA.date).set({date: DATA.date, line, count: n, at: new Date().toISOString()}),
+    can === 'available' ? comments.anchorFor($('.bar')).then(anchor => comments.sendToClaude({anchor, text})) : Promise.reject({code: can}),
+  ]);
+  $('#confirm').disabled = false;
+  if (kept.status === 'rejected' && sent.status === 'rejected')
+    status(`Couldn’t save or send (${kept.reason && kept.reason.code || 'error'}). Use Copy picks and paste the line in chat.`);
+  else if (sent.status === 'rejected')
+    status(`Saved. No Claude session got it (${sent.reason && sent.reason.code || 'not sent'}): tell Claude “picks confirmed” in chat.`);
+  else if (kept.status === 'rejected')
+    status(`Sent to Claude, but saving failed (${kept.reason && kept.reason.code || 'error'}). If Claude can’t read the picks, use Copy picks.`);
+  else status('Sent to Claude. It shows the dry run in chat and writes queue/reviewed-' + DATA.date + '.csv only after you say yes.');
+}
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('button');
+  if (!b) return;
+  if (b.dataset.call) setPick(b.closest('[data-id]').dataset.id, b.dataset.call);
+  else if (b.dataset.bulk) {
+    toggleSection(b.dataset.sec, b.dataset.bulk, listed[b.dataset.sec] || []);
+    store(); render();
+  }
+  else if (b.dataset.all) { showAll[b.dataset.all] = !showAll[b.dataset.all]; render(); }
+  else if (b.dataset.more) { shown[b.dataset.more] = (shown[b.dataset.more] || PAGE) + PAGE; render(); }
+  else if (b.dataset.jump) { const g = document.getElementById(b.dataset.jump); if (g) { g.open = true; opened[g.id] = true; g.scrollIntoView({behavior: 'smooth', block: 'start'}); } }
+  else if (b.id === 'confirm') confirmPicks();
+  else if (b.id === 'copy') {
+    const t = $('#picktext').value;
+    if (!t) { status('Nothing to copy yet: pick a role first.'); return; }
+    const line = 'My picks for the ' + DATA.date + ' run: ' + t;
+    const sel = () => { $('#picktext').value = line; $('#picktext').select(); status('Selected. Copy it, then paste it in chat.'); };
+    if (navigator.clipboard) navigator.clipboard.writeText(line).then(() => status('Copied. Paste it in chat, and Claude writes queue/reviewed-' + DATA.date + '.csv.'), sel);
+    else sel();
+  }
+});
+document.addEventListener('toggle', e => {
+  if (e.target.classList && e.target.classList.contains('group') && !query()) opened[e.target.id] = e.target.open;
+}, true);
+document.addEventListener('input', e => {
+  if (e.target.id === 'q') render();
+  else if (e.target.classList.contains('note')) { const id = e.target.closest('[data-id]').dataset.id; setPick(id, pickOf(id).call, e.target.value); }
+});
+
+initPicks();
+header();
+render();
+lightUp();
+
+</script>

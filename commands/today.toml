@@ -1,0 +1,2 @@
+description = "Runs the whole job-search day in one session, from Gmail sync, finding and scoring roles, reads and picks through resumes, drafts, forms filled up to Submit, submit approvals, LinkedIn follow-up and wrap-up. Use to start each day (run today's job search) or to pick a day up again."
+prompt = "Use the get-me-hired today skill. {{args}}"

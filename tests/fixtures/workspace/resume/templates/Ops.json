@@ -1,0 +1,13 @@
+{
+ "bio": "Chief of Staff  ·  Operating Cadence & Strategy",
+ "summary": "Chief of staff with 14 years running operating cadence for CEOs.",
+ "skills": "Operating Cadence  |  OKRs  |  Board Prep",
+ "experience": [
+  {"id": "examplehealth", "role": "Chief of Staff to the CEO", "dates": "Mar 2021 - Jun 2026", "company": "Example Health", "location": "Chicago, IL",
+   "scope": "Digital health company, 400 employees.", "bullets": ["Ran the weekly operating review for **12 executives**", "Built the board deck process, cutting prep **from 3 weeks to 1**"]},
+  {"id": "acme", "role": "Strategy Manager", "dates": "Jan 2016 - Feb 2021", "company": "Acme Logistics", "location": "Chicago, IL",
+   "scope": "", "bullets": ["Led the annual planning process across **6 business units**"]}
+ ],
+ "education": [{"school": "Northwestern University", "degree": "B.A., Economics", "years": "2008 - 2012"}],
+ "extra_sections": [{"heading": "INTERESTS", "text": "Marathons  |  Chess"}]
+}

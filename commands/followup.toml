@@ -1,0 +1,2 @@
+description = "Finds applications gone quiet and drafts short follow-up emails from what you actually submitted, never sent, then sweeps stale ones to no response. Use when an application has had no reply for 10 or more days."
+prompt = "Use the get-me-hired followup skill. {{args}}"

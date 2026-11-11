@@ -1,0 +1,2 @@
+description = "Imports past job applications from Gmail, or a Google Takeout .mbox, into the tracker after you approve each row. Use once at the start, after a gap, or when gmail-sync says no earlier scan is recorded."
+prompt = "Use the get-me-hired import-history skill. {{args}}"

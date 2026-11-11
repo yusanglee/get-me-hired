@@ -1,0 +1,19 @@
+{
+  "_note": "Suggested permissions for a get-me-hired workspace. `gmh setup permissions --workspace <ws>` (Claude Code only) merges the deny rules into <workspace>/.claude/settings.json and keeps what is already there; review before using. Deny rules hold in every permission mode. Submitting an application needs no rule here: the plugin's submit guard (hooks/approval_guard.js) asks before each one. Adapted from ai-job-search's settings (MIT).",
+  "permissions": {
+    "deny": [
+      "Bash(curl * | sh)",
+      "Bash(curl * | bash)",
+      "Bash(wget * | sh)",
+      "Bash(rm -rf *)",
+      "Bash(git push *)",
+      "Bash(gh repo create *)",
+      "Bash(gh gist create *)",
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.config/gh/**)",
+      "Read(**/.env)",
+      "Edit(**/tracker.csv)"
+    ]
+  }
+}

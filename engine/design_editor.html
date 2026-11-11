@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Resume design</title>
+<style>
+:root{
+  --bg:#f4f3ef;--panel:#fbfbf9;--raised:#ffffff;--fg:#1d1d1b;--muted:#64645f;--line:#e2e1dc;--line-strong:#cfcec8;
+  --accent:#2f5d50;--accent-fg:#ffffff;--accent-bg:#e3eee9;--warn:#7a5000;--warn-bg:#fbf0d9;--bad:#9b2c2c;--bad-bg:#f8e5e3;
+  --good:#2f5d50;--good-bg:#e3eee9;--canvas:#e9e8e3;--focus:#2f5d50;--shadow:0 1px 2px rgba(20,20,18,.06),0 8px 24px rgba(20,20,18,.08);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){
+  --bg:#121211;--panel:#191917;--raised:#20201e;--fg:#ecebe6;--muted:#a09f99;--line:#2c2c29;--line-strong:#3a3a36;
+  --accent:#8fc1ae;--accent-fg:#10201a;--accent-bg:#1f2f29;--warn:#e7b65c;--warn-bg:#33270f;--bad:#ef9a92;--bad-bg:#3a1f1d;
+  --good:#8fc1ae;--good-bg:#1f2f29;--canvas:#0d0d0c;--focus:#8fc1ae;--shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.45);
+  color-scheme:dark;
+}}
+:root[data-theme=dark]{
+  --bg:#121211;--panel:#191917;--raised:#20201e;--fg:#ecebe6;--muted:#a09f99;--line:#2c2c29;--line-strong:#3a3a36;
+  --accent:#8fc1ae;--accent-fg:#10201a;--accent-bg:#1f2f29;--warn:#e7b65c;--warn-bg:#33270f;--bad:#ef9a92;--bad-bg:#3a1f1d;
+  --good:#8fc1ae;--good-bg:#1f2f29;--canvas:#0d0d0c;--focus:#8fc1ae;--shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.45);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  display:grid;grid-template-rows:auto 1fr;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:var(--accent-fg)}
+*{scrollbar-color:var(--line-strong) transparent;scrollbar-width:thin}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
+button,input,select{font:inherit;color:inherit}
+
+/* top bar */
+header{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--line);background:var(--panel);flex-wrap:wrap}
+header h1{font-size:15px;font-weight:600;margin:0;letter-spacing:-.005em}
+.src{display:flex;align-items:center;gap:8px;min-width:0;flex:1 1 280px}
+.src label{color:var(--muted);font-size:12px;white-space:nowrap}
+.src select{min-width:0;max-width:420px;flex:1}
+.status{font-size:12px;color:var(--muted);white-space:nowrap}
+.status.dirty{color:var(--warn)}
+.actions{display:flex;gap:8px;margin-left:auto}
+
+select,input[type=text],input[type=number]{background:var(--raised);border:1px solid var(--line-strong);border-radius:6px;padding:5px 8px;font-size:13px;height:30px}
+select:hover,input[type=text]:hover,input[type=number]:hover{border-color:var(--muted)}
+.btn{height:32px;padding:0 14px;border-radius:7px;border:1px solid var(--line-strong);background:var(--raised);cursor:pointer;font-size:13px;font-weight:500;
+  transition:background-color .15s ease-out,border-color .15s ease-out,opacity .15s ease-out;white-space:nowrap}
+.btn:hover{border-color:var(--muted)}
+.btn:active{transform:translateY(.5px)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.btn.primary:hover{filter:brightness(1.06)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;filter:none}
+.btn.small{height:26px;padding:0 10px;font-size:12px}
+.btn.quiet{border-color:transparent;background:transparent;color:var(--muted)}
+.btn.quiet:hover{color:var(--fg);background:var(--line)}
+.btn.busy{position:relative;color:transparent}
+.btn.busy::after{content:"";position:absolute;inset:0;margin:auto;width:14px;height:14px;border-radius:50%;
+  border:2px solid var(--accent-fg);border-right-color:transparent;animation:spin .7s linear infinite}
+.btn:not(.primary).busy::after{border-color:var(--fg);border-right-color:transparent}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* layout */
+.app{display:grid;grid-template-columns:340px 1fr;min-height:0}
+aside{border-right:1px solid var(--line);background:var(--panel);overflow-y:auto;min-height:0}
+section.group{padding:14px 16px 16px;border-bottom:1px solid var(--line)}
+section.group h2{font-size:12px;font-weight:600;margin:0 0 10px;color:var(--fg)}
+.field{display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px 10px;margin:0 0 10px}
+.field:last-child{margin-bottom:0}
+.field>label{font-size:12.5px;color:var(--muted)}
+.field .val{display:flex;align-items:center;gap:4px;font-variant-numeric:tabular-nums;font-size:12px;color:var(--muted)}
+.field .val input{width:64px;height:26px;text-align:right;padding:2px 6px}
+.field input[type=range]{grid-column:1/-1;width:100%;margin:0;accent-color:var(--accent);height:18px}
+.field.full{grid-template-columns:1fr}
+.field.full select{width:100%}
+.hint{font-size:11.5px;color:var(--muted);margin:3px 0 0;grid-column:1/-1}
+.hint.warn{color:var(--warn)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.themes{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px}
+.theme{border:1px solid var(--line-strong);border-radius:7px;background:var(--raised);padding:6px 4px 5px;cursor:pointer;display:grid;gap:5px;justify-items:center;font-size:11px;color:var(--muted)}
+.theme:hover{border-color:var(--muted)}
+.theme[aria-pressed=true]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);color:var(--fg)}
+.theme .sw{display:flex;gap:2px}.theme .sw i{width:9px;height:14px;border-radius:2px;display:block}
+.colors{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px}
+.color{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
+.color input[type=color]{width:28px;height:24px;padding:0;border:1px solid var(--line-strong);border-radius:5px;background:none;cursor:pointer;flex:none}
+.color input[type=color]::-webkit-color-swatch-wrapper{padding:2px}.color input[type=color]::-webkit-color-swatch{border:none;border-radius:3px}
+.color code{font:11px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted)}
+.seg{display:inline-flex;border:1px solid var(--line-strong);border-radius:7px;overflow:hidden;background:var(--raised)}
+.seg button{border:none;background:none;padding:4px 10px;font-size:12.5px;cursor:pointer;color:var(--muted);min-width:30px}
+.seg button+button{border-left:1px solid var(--line-strong)}
+.seg button[aria-pressed=true]{background:var(--accent-bg);color:var(--fg);font-weight:600}
+.toggles{display:grid;gap:7px}
+.toggle{display:flex;align-items:center;justify-content:space-between;font-size:12.5px;color:var(--muted)}
+.switch{appearance:none;width:30px;height:18px;border-radius:9px;background:var(--line-strong);position:relative;cursor:pointer;margin:0;transition:background-color .15s ease-out;flex:none}
+.switch::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s ease-out}
+.switch:checked{background:var(--accent)}.switch:checked::after{transform:translateX(12px)}
+.more{margin-top:4px;font-size:12px;color:var(--muted)}.more summary{cursor:pointer;width:max-content}.more summary:hover{color:var(--fg)}
+.foot{padding:14px 16px 24px;display:flex;gap:8px;flex-wrap:wrap}
+
+/* right side */
+main{display:grid;grid-template-rows:auto 1fr;min-height:0;min-width:0;background:var(--canvas)}
+.tabs{display:flex;align-items:center;gap:2px;padding:8px 16px 0;border-bottom:1px solid var(--line);background:var(--panel)}
+.tab{border:none;background:none;padding:8px 12px 9px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab[aria-selected=true]{color:var(--fg);border-bottom-color:var(--accent);font-weight:600}
+.tab .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-left:6px;vertical-align:1px}
+.tabs .note{margin-left:auto;font-size:12px;color:var(--muted);padding-bottom:6px}
+.pane{overflow:auto;min-height:0;padding:28px 24px 48px}
+.pane[hidden]{display:none}
+.stage{margin:0 auto;transform-origin:top left}
+.paper{background:#fff;color:#000;box-shadow:var(--shadow);position:relative;width:612pt;min-height:792pt}
+.guide{position:absolute;left:0;right:0;border-top:1px dashed #d0574b;pointer-events:none}
+.guide span{position:absolute;right:6pt;top:-14pt;font:600 7.5pt/1 -apple-system,system-ui,sans-serif;color:#b0453a;background:#fff;padding:2pt 3pt;border-radius:2pt}
+.empty{max-width:420px;margin:60px auto;text-align:center;color:var(--muted)}
+.empty h2{color:var(--fg);font-size:15px;margin:0 0 6px}
+
+/* resume preview (inline styles carry the tokens) */
+.rv{display:flex;flex-direction:column;align-items:stretch}/* flex: margins add up like Word's space before/after, no collapsing */
+.rv p{margin:0}
+.rv .rl,.rv .ed{align-self:flex-start}
+.rv .rl,.rv .ed{display:flex;justify-content:space-between;align-items:baseline;white-space:nowrap}
+.rv .bl{display:grid}
+.rv .bl .g{text-align:left}
+
+/* check pane */
+.verdict{max-width:860px;margin:0 auto 18px;background:var(--raised);border:1px solid var(--line);border-radius:10px;padding:14px 16px;box-shadow:var(--shadow)}
+.verdict h2{margin:0 0 4px;font-size:15px;display:flex;align-items:center;gap:8px}
+.badge{font-size:11.5px;font-weight:600;border-radius:999px;padding:2px 9px}
+.badge.ok{background:var(--good-bg);color:var(--good)}.badge.bad{background:var(--bad-bg);color:var(--bad)}.badge.stale{background:var(--warn-bg);color:var(--warn)}
+.verdict ul{margin:8px 0 0;padding-left:18px}.verdict li{margin:2px 0}
+.verdict .fails li{color:var(--bad)}
+.verdict .notes{color:var(--muted);font-size:12.5px}
+.verdict .act{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap}
+.verdict .act .msg{font-size:12.5px;color:var(--muted)}
+.verdict .act .msg.good{color:var(--good)}
+.verdict .act .msg.bad{color:var(--bad)}
+.pages{display:flex;flex-wrap:wrap;gap:18px;justify-content:center}
+.pages img{width:min(100%,520px);height:auto;background:#fff;box-shadow:var(--shadow);display:block}
+.pages figure{margin:0}.pages figcaption{font-size:12px;color:var(--muted);margin-top:6px;text-align:center}
+.skeleton{width:min(100%,520px);aspect-ratio:8.5/11;background:linear-gradient(90deg,var(--line) 0,var(--panel) 50%,var(--line) 100%);background-size:200% 100%;animation:sh 1.2s ease-in-out infinite;border-radius:2px}
+@keyframes sh{to{background-position:-200% 0}}
+.errbox{max-width:860px;margin:0 auto 14px;background:var(--bad-bg);color:var(--bad);border-radius:8px;padding:10px 14px;font-size:13px}
+.errbox[hidden]{display:none}
+
+@media (max-width:900px){
+  body{display:block}
+  .app{grid-template-columns:1fr}
+  aside{border-right:none;border-bottom:1px solid var(--line);max-height:none}
+  .pane{padding:16px}
+  .actions{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Resume design</h1>
+  <div class="src"><label for="source">Preview with</label><select id="source"></select></div>
+  <span class="status" id="status" role="status">Loading</span>
+  <div class="actions">
+    <button class="btn" id="check" type="button">Check PDF</button>
+    <button class="btn primary" id="save" type="button" disabled>Save design</button>
+  </div>
+</header>
+<div class="app">
+  <aside id="controls" aria-label="Design controls"></aside>
+  <main>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" id="t-live" aria-selected="true" aria-controls="p-live">Live preview</button>
+      <button class="tab" role="tab" id="t-pdf" aria-selected="false" aria-controls="p-pdf">PDF check<span class="dot" id="pdfdot" hidden></span></button>
+      <span class="note" id="tabnote">Approximate layout. Check PDF builds the real file.</span>
+    </div>
+    <div class="pane" id="p-live" role="tabpanel" aria-labelledby="t-live"><div class="stage" id="stage"><div class="paper" id="paper"></div></div></div>
+    <div class="pane" id="p-pdf" role="tabpanel" aria-labelledby="t-pdf" hidden>
+      <div class="errbox" id="err" hidden></div>
+      <div id="result"><div class="empty"><h2>No check yet</h2><p>Check PDF builds a DOCX and PDF with these settings, runs the resume checks (page count, line limits, page breaks, fonts, ATS text) and shows the pages here. Saving needs a check of the current settings.</p></div></div>
+    </div>
+  </main>
+</div>
+<script>
+'use strict';
+const TOKEN = '__TOKEN__';
+const $ = (s, el = document) => el.querySelector(s);
+const el = (tag, attrs = {}, ...kids) => {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v == null || v === false) continue;
+    if (k === 'class') n.className = v; else if (k === 'text') n.textContent = v;
+    else if (k.startsWith('on')) n.addEventListener(k.slice(2), v); else n.setAttribute(k, v === true ? '' : v);
+  }
+  for (const c of kids.flat()) if (c != null) n.append(c);
+  return n;
+};
+const clone = (o) => JSON.parse(JSON.stringify(o));
+const get = (o, p) => p.split('.').reduce((a, k) => a[k], o);
+const set = (o, p, v) => { const ks = p.split('.'); const last = ks.pop(); ks.reduce((a, k) => a[k], o)[last] = v; };
+const strip = (o) => { const c = clone(o); for (const k of Object.keys(c)) if (k.startsWith('_')) delete c[k]; return c; };
+const same = (a, b) => JSON.stringify(strip(a)) === JSON.stringify(strip(b));
+const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+                set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }, del(k) { try { localStorage.removeItem(k); } catch (e) {} } };
+
+let S = null;          // server state
+let T = null;          // working tokens
+let saved = null;      // tokens on disk (or defaults)
+let resume = null;     // preview payload
+let lastCheck = null;  // {id, tokens, fails}
+
+async function api(path, body) {
+  const r = await fetch(path, body ? { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-GMH-Token': TOKEN }, body: JSON.stringify(body) } : {});
+  const j = await r.json().catch(() => ({ ok: false, errors: ['The editor server sent an unreadable reply.'] }));
+  if (!r.ok && !j.errors) j.errors = [j.error || `Server error ${r.status}`];
+  return j;
+}
+
+/* ---------- fonts: the same files LibreOffice embeds ---------- */
+function registerFonts() {
+  const css = [];
+  const W = { regular: [400, 'normal'], bold: [700, 'normal'], italic: [400, 'italic'], bolditalic: [700, 'italic'] };
+  for (const f of S.fonts) for (const [st, file] of Object.entries(f.files)) {
+    const [w, s] = W[st];
+    css.push(`@font-face{font-family:"gmh ${f.name}";src:url("/fonts/${encodeURIComponent(file)}");font-weight:${w};font-style:${s};font-display:block}`);
+  }
+  document.head.append(el('style', { text: css.join('\n') }));
+}
+const fam = (name) => `"gmh ${name}", serif`;
+// Load the faces in use before drawing, so the preview never flashes a fallback face.
+const ensureFonts = () => Promise.all([T.fonts.heading, T.fonts.body].flatMap(n => ['400 10pt', '700 10pt', 'italic 400 10pt'].map(w =>
+  document.fonts.load(`${w} "gmh ${n}"`).catch(() => null))));
+
+/* ---------- controls ---------- */
+const SIZES = [['sizes_pt.name', 'Name'], ['sizes_pt.section', 'Section headings'], ['sizes_pt.role', 'Job titles'], ['sizes_pt.body', 'Body text'], ['sizes_pt.contact', 'Contact line']];
+const SPACING = [['line_height', 'Line height', 0.01, ''], ['spacing_pt.section_before', 'Space above sections', 0.5], ['spacing_pt.section_after', 'Space below headings', 0.5],
+  ['spacing_pt.role_before', 'Space above each job', 0.5], ['spacing_pt.scope_after', 'Space after job summary', 0.1], ['spacing_pt.bullet_after', 'Space between bullets', 0.1],
+  ['letter_spacing_pt.name', 'Name letter spacing', 0.1], ['letter_spacing_pt.section', 'Heading letter spacing', 0.1]];
+const MARGINS = [['page.margins_pt.top', 'Top'], ['page.margins_pt.bottom', 'Bottom'], ['page.margins_pt.left', 'Left'], ['page.margins_pt.right', 'Right']];
+const COLORS = [['name', 'Name'], ['section', 'Headings'], ['text', 'Body'], ['secondary', 'Secondary'], ['muted', 'Dates, places'], ['rule', 'Rules']];
+const range = (p) => S.ranges[p] || (p.startsWith('spacing_pt') ? [0, 24] : [0, 10]);
+
+function numberField(path, label, step = 0.5, unit = 'pt') {
+  const [lo, hi] = range(path);
+  const r = el('input', { type: 'range', min: lo, max: hi, step, id: 'r-' + path, 'aria-label': label });
+  const n = el('input', { type: 'number', min: lo, max: hi, step, id: 'n-' + path, 'aria-label': label + ' value' });
+  const sync = (v) => { r.value = v; n.value = v; };
+  r.addEventListener('input', () => { set(T, path, +r.value); n.value = r.value; changed(); });
+  n.addEventListener('change', () => { let v = Math.min(hi, Math.max(lo, +n.value || lo)); sync(v); set(T, path, v); changed(); });
+  binders.push(() => sync(get(T, path)));
+  return el('div', { class: 'field' }, el('label', { for: 'r-' + path, text: label }), el('span', { class: 'val' }, n, unit ? unit : null), r);
+}
+function seg(path, options, label) {
+  const g = el('div', { class: 'seg', role: 'group', 'aria-label': label });
+  for (const [v, text] of options) g.append(el('button', { type: 'button', 'data-v': v, text, onclick: () => { set(T, path, v); bindAll(); changed(); } }));
+  binders.push(() => g.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === get(T, path))));
+  return el('div', { class: 'field' }, el('label', { text: label }), g);
+}
+function toggle(path, label) {
+  const id = 'x-' + path;
+  const c = el('input', { type: 'checkbox', class: 'switch', id, role: 'switch', onchange: () => { set(T, path, c.checked); changed(); } });
+  binders.push(() => { c.checked = !!get(T, path); });
+  return el('label', { class: 'toggle', for: id }, label, c);
+}
+function fontField(path, label) {
+  const s = el('select', { id: 'f-' + path });
+  const serif = S.fonts.filter(f => f.serif), sans = S.fonts.filter(f => !f.serif);
+  for (const [name, list] of [['Serif', serif], ['Sans serif', sans]]) {
+    const og = el('optgroup', { label: name });
+    list.forEach(f => og.append(el('option', { value: f.name, text: f.name })));
+    s.append(og);
+  }
+  const hint = el('p', { class: 'hint' });
+  s.addEventListener('change', async () => { set(T, path, s.value); bindAll(); await ensureFonts(); changed(); });
+  binders.push(() => {
+    const v = get(T, path); s.value = v;
+    const f = S.fonts.find(x => x.name === v);
+    hint.className = 'hint' + (f ? '' : ' warn');
+    hint.textContent = !f ? `${v} can't be embedded on this machine; pick another.`
+      : f.status === 'twin' ? `The DOCX says ${v}; the PDF embeds ${f.pdf_family}, which has the same letter widths.`
+      : 'Embedded in the PDF as is.';
+  });
+  return el('div', { class: 'field full' }, el('label', { for: 'f-' + path, text: label }), s, hint);
+}
+function themeRow() {
+  const wrap = el('div', { class: 'themes', role: 'group', 'aria-label': 'Color themes' });
+  for (const [name, c] of Object.entries(S.themes)) {
+    const sw = el('span', { class: 'sw' }, ...['name', 'section', 'secondary', 'rule'].map(k => { const i = el('i'); i.style.background = '#' + c[k]; return i; }));
+    wrap.append(el('button', { type: 'button', class: 'theme', 'data-theme': name, onclick: () => { T.colors = clone(c); bindAll(); changed(); } }, sw, name));
+  }
+  binders.push(() => wrap.querySelectorAll('.theme').forEach(b => b.setAttribute('aria-pressed',
+    JSON.stringify(S.themes[b.dataset.theme]).toUpperCase() === JSON.stringify(T.colors).toUpperCase())));
+  return wrap;
+}
+function colorGrid() {
+  const g = el('div', { class: 'colors' });
+  for (const [k, label] of COLORS) {
+    const inp = el('input', { type: 'color', id: 'c-' + k, 'aria-label': label + ' color' });
+    const code = el('code');
+    inp.addEventListener('input', () => { T.colors[k] = inp.value.slice(1).toUpperCase(); code.textContent = T.colors[k]; changed(); bindThemes(); });
+    binders.push(() => { inp.value = '#' + T.colors[k]; code.textContent = T.colors[k].toUpperCase(); });
+    g.append(el('label', { class: 'color', for: 'c-' + k }, inp, el('span', {}, label, el('br'), code)));
+  }
+  return g;
+}
+let binders = [];
+const bindAll = () => binders.forEach(f => f());
+const bindThemes = () => bindAll();
+
+function buildControls() {
+  binders = [];
+  const a = $('#controls');
+  a.replaceChildren(
+    el('section', { class: 'group' }, el('h2', { text: 'Fonts' }), fontField('fonts.heading', 'Name and headings'), fontField('fonts.body', 'Body'),
+      S.unavailable.length ? el('details', { class: 'more' }, el('summary', { text: `Why only ${S.fonts.length} fonts?` }),
+        el('p', { class: 'hint', text: `These fonts are offered because LibreOffice on this machine embeds them (or a twin with identical letter widths) in the PDF. It would silently swap these for a different face: ${S.unavailable.join(', ')}.` })) : null),
+    el('section', { class: 'group' }, el('h2', { text: 'Color' }), themeRow(), colorGrid()),
+    el('section', { class: 'group' }, el('h2', { text: 'Type sizes' }), ...SIZES.map(([p, l]) => numberField(p, l, 0.5))),
+    el('section', { class: 'group' }, el('h2', { text: 'Spacing' }), ...SPACING.map(([p, l, st, u]) => numberField(p, l, st, u ?? 'pt'))),
+    el('section', { class: 'group' }, el('h2', { text: 'Page margins' }), el('div', { class: 'row2' }, ...MARGINS.map(([p, l]) => numberField(p, l, 1)))),
+    el('section', { class: 'group' }, el('h2', { text: 'Details' }),
+      seg('dates.align', [['right', 'Right edge'], ['inline', 'After title']], 'Dates'),
+      seg('bullet.glyph', S.bullets.map(b => [b, b]), 'Bullet'),
+      el('div', { class: 'toggles' }, toggle('bold.name', 'Bold name'), toggle('bold.section', 'Bold headings'), toggle('bold.role', 'Bold job titles'),
+        toggle('bold.school', 'Bold school names'), toggle('bold.inline', 'Bold highlights in text'), toggle('italic.company', 'Italic company line'),
+        toggle('section_rule.show', 'Rule under headings'))),
+    el('div', { class: 'foot' },
+      el('button', { class: 'btn small', type: 'button', text: 'Revert to saved', onclick: () => { T = clone(saved); bindAll(); changed(); } }),
+      el('button', { class: 'btn small quiet', type: 'button', text: 'Original design', onclick: () => { T = clone(S.defaults); bindAll(); changed(); } })),
+  );
+  bindAll();
+}
+
+/* ---------- live preview ---------- */
+const pt = (v) => v + 'pt';
+function rich(text, color, T) {
+  const out = [];
+  for (const seg of text.split(/(\*\*[^*]+\*\*)/g).filter(Boolean)) {
+    if (seg.startsWith('**')) {
+      const b = el('span', { text: seg.slice(2, -2) });
+      if (T.bold.inline) { b.style.fontWeight = 700; b.style.color = '#' + T.colors.text; } else b.style.color = color;
+      out.push(b);
+    } else out.push(document.createTextNode(seg));
+  }
+  return out;
+}
+function para(style, ...kids) { const p = el('p', {}, ...kids); Object.assign(p.style, style); return p; }
+function span(text, style) { const s = el('span', { text }); Object.assign(s.style, style); return s; }
+
+function render() {
+  const P = $('#paper');
+  if (!resume) { P.replaceChildren(el('div', { class: 'empty' }, el('h2', { text: 'No resume to preview' }), el('p', { text: 'Build a resume with the tailor stage, or add an approved template under resume/templates in your workspace.' }))); return; }
+  const c = Object.fromEntries(Object.entries(T.colors).map(([k, v]) => [k, '#' + v]));
+  const sz = T.sizes_pt, sp = T.spacing_pt, M = T.page.margins_pt;
+  const head = fam(T.fonts.heading), body = fam(T.fonts.body);
+  const NAT = 1.17;                       // a face's natural line height, roughly, as Word lays out "single"
+  const lhRich = NAT * T.line_height, lhOne = NAT;
+  const base = { fontFamily: body, fontSize: pt(sz.body), color: c.text, lineHeight: lhOne };
+  const sep = T.separator.replace(/ /g, ' ');
+  const dated = (cls, left, text, extra = {}) => {
+    const wrap = para(Object.assign({}, base, extra), ...left, ...(T.dates.align === 'right' ? [span(text, { color: c.muted })] : [span(sep + text, { color: c.muted })]));
+    if (T.dates.align === 'right') { wrap.className = cls; wrap.style.width = pt(T.dates.tab_pt); } else wrap.style.whiteSpace = 'nowrap';
+    return wrap;
+  };
+  const heading = (t) => para({ fontFamily: head, fontSize: pt(sz.section), color: c.section, fontWeight: T.bold.section ? 700 : 400,
+    letterSpacing: pt(T.letter_spacing_pt.section), marginTop: pt(sp.section_before), marginBottom: pt(sp.section_after), lineHeight: lhOne,
+    paddingBottom: T.section_rule.show ? pt(T.section_rule.gap_pt) : 0,
+    borderBottom: T.section_rule.show ? `${T.section_rule.weight_pt}pt solid ${c.rule}` : 'none' }, t);
+  const kids = [];
+  kids.push(para({ textAlign: 'center', fontFamily: head, fontSize: pt(sz.name), fontWeight: T.bold.name ? 700 : 400, color: c.name,
+    letterSpacing: pt(T.letter_spacing_pt.name), marginBottom: pt(sp.name_after), lineHeight: lhOne }, resume.name));
+  if (resume.bio) kids.push(para(Object.assign({}, base, { textAlign: 'center', fontFamily: head, color: c.muted, marginBottom: pt(sp.bio_after) }), resume.bio));
+  resume.contact.forEach((line, i) => kids.push(para(Object.assign({}, base, { textAlign: 'center', fontSize: pt(sz.contact), color: c.secondary,
+    marginBottom: pt(i < resume.contact.length - 1 ? sp.contact_between : 0) }), line)));
+  kids.push(heading('EXECUTIVE SUMMARY'));
+  kids.push(para(Object.assign({}, base, { lineHeight: lhRich, marginBottom: pt(sp.summary_after) }), ...rich(resume.summary, c.text, T)));
+  kids.push(heading('PROFESSIONAL EXPERIENCE'));
+  for (const x of resume.experience) {
+    kids.push(dated('rl', [span(x.role, { fontSize: pt(sz.role), fontWeight: T.bold.role ? 700 : 400 })], x.dates, { marginTop: pt(sp.role_before) }));
+    kids.push(para(Object.assign({}, base, { fontStyle: T.italic.company ? 'italic' : 'normal', marginBottom: pt(sp.company_after) }),
+      x.company, span(sep + x.location, { color: c.muted })));
+    if (x.scope) kids.push(para(Object.assign({}, base, { color: c.secondary, lineHeight: lhRich, marginBottom: pt(sp.scope_after) }), ...rich(x.scope, c.secondary, T)));
+    for (const b of x.bullets) {
+      const li = para(Object.assign({}, base, { marginBottom: pt(sp.bullet_after), paddingLeft: T.bullet.indent_in + 'in', textIndent: (-T.bullet.hanging_in) + 'in' }),
+        span(T.bullet.glyph, { display: 'inline-block', width: T.bullet.hanging_in + 'in', textIndent: 0 }), ...rich(b, c.text, T));
+      kids.push(li);
+    }
+  }
+  kids.push(heading('SKILLS'));
+  kids.push(para(Object.assign({}, base, { lineHeight: lhRich, marginBottom: pt(sp.skills_after) }), ...rich(resume.skills, c.text, T)));
+  kids.push(heading('EDUCATION'));
+  resume.education.forEach((e, i) => kids.push(dated('ed', [span(e.school, { fontWeight: T.bold.school ? 700 : 400 }), span(sep + e.degree, { color: c.muted })], e.years,
+    { marginBottom: pt(i < resume.education.length - 1 ? sp.education_between : 0) })));
+  for (const s of resume.extra_sections || []) {
+    kids.push(heading(s.heading));
+    kids.push(para(Object.assign({}, base, { lineHeight: lhRich }), ...rich(s.text, c.text, T)));
+  }
+  const content = el('div', { class: 'rv' }, ...kids);
+  Object.assign(content.style, { padding: `${pt(M.top)} ${pt(M.right)} ${pt(M.bottom)} ${pt(M.left)}` });
+  P.replaceChildren(content);
+  // Page guides: where each page's text area ends, measured on the rendered content.
+  requestAnimationFrame(() => {
+    if (!P.offsetWidth || $('#p-live').hidden) return;   // measured again when the tab is shown
+    const ptPx = P.offsetWidth / 612;
+    const usable = (792 - M.top - M.bottom) * ptPx;
+    const total = content.scrollHeight - (M.top + M.bottom) * ptPx;
+    const pages = Math.max(1, Math.ceil(total / usable));
+    P.style.minHeight = pt(Math.max(792, pages * 792));
+    P.querySelectorAll('.guide').forEach(g => g.remove());
+    for (let i = 1; i < pages + 1; i++) {
+      const g = el('div', { class: 'guide' }, el('span', { text: `page ${i} ends about here` }));
+      g.style.top = (M.top * ptPx + usable * i) + 'px';
+      if (i < pages || total > usable * i - 1) P.append(g);
+    }
+    $('#tabnote').textContent = `About ${pages} page${pages > 1 ? 's' : ''} (rules: ${S.rules.pages || 'any'}). Approximate; Check PDF builds the real file.`;
+  });
+}
+let scale = 1;
+function fit() {
+  const pane = $('#p-live'), stage = $('#stage'), P = $('#paper');
+  const w = pane.clientWidth - 48;
+  const natural = P.offsetWidth;
+  scale = Math.min(1.4, Math.max(0.35, w / natural));
+  stage.style.transform = `scale(${scale})`;
+  stage.style.width = natural + 'px';
+  stage.style.height = (P.offsetHeight * scale) + 'px';
+  stage.style.marginLeft = Math.max(0, (w - natural * scale) / 2) + 'px';
+}
+
+/* ---------- state, check, save ---------- */
+let raf = 0;
+function changed() {
+  store.set('gmh-design-draft', JSON.stringify(T));
+  cancelAnimationFrame(raf);
+  raf = requestAnimationFrame(() => { render(); requestAnimationFrame(fit); });
+  updateStatus();
+}
+function updateStatus() {
+  const dirty = !same(T, saved);
+  const st = $('#status');
+  st.textContent = dirty ? 'Unsaved changes' : (S.saved_exists ? 'Saved design' : 'Original design (no design.json yet)');
+  st.className = 'status' + (dirty ? ' dirty' : '');
+  const checked = lastCheck && same(lastCheck.tokens, T);
+  $('#save').disabled = !(checked && dirty);
+  $('#save').title = !dirty ? 'Nothing to save' : (checked ? '' : 'Check PDF first: saving needs a check of the current settings');
+  const dot = $('#pdfdot');
+  if (lastCheck) { dot.hidden = false; dot.style.background = !checked ? 'var(--warn)' : (lastCheck.fails.length ? 'var(--bad)' : 'var(--good)'); }
+  const badge = $('#vbadge');
+  if (badge && lastCheck && !checked) { badge.className = 'badge stale'; badge.textContent = 'Settings changed since this check'; }
+}
+function showTab(which) {
+  for (const [t, p] of [['#t-live', '#p-live'], ['#t-pdf', '#p-pdf']]) {
+    const on = t === which; $(t).setAttribute('aria-selected', on); $(p).hidden = !on;
+  }
+  $('#tabnote').hidden = which !== '#t-live';
+  if (which === '#t-live') changed();
+}
+function showError(list) { const e = $('#err'); e.hidden = !list; e.replaceChildren(...(list || []).map(t => el('div', { text: t }))); }
+
+async function runCheck() {
+  const b = $('#check'); b.classList.add('busy'); b.disabled = true; showTab('#t-pdf'); showError(null);
+  const tokens = clone(T);
+  $('#result').replaceChildren(el('div', { class: 'pages' }, el('div', { class: 'skeleton' }), el('div', { class: 'skeleton' })));
+  try {
+    const r = await api('/api/check', { tokens, source: $('#source').value });
+    if (!r.ok) { lastCheck = null; showError(r.errors); $('#result').replaceChildren(); return; }
+    lastCheck = { id: r.check_id, tokens, fails: r.fails };
+    const pass = !r.fails.length;
+    const saveMsg = el('span', { class: 'msg', id: 'savemsg' });
+    const v = el('div', { class: 'verdict' },
+      el('h2', {}, pass ? 'All resume checks pass' : `${r.fails.length} check${r.fails.length > 1 ? 's' : ''} failed`,
+        el('span', { class: 'badge ' + (pass ? 'ok' : 'bad'), id: 'vbadge', text: pass ? 'Ready to save' : 'Needs a look' })),
+      pass ? null : el('ul', { class: 'fails' }, ...r.fails.map(f => el('li', { text: f }))),
+      r.notes.length ? el('ul', { class: 'notes' }, ...r.notes.map(n => el('li', { text: n }))) : null,
+      el('div', { class: 'act' },
+        el('a', { class: 'btn small', href: r.pdf, target: '_blank', rel: 'noopener', text: 'Open PDF' }),
+        pass ? null : el('button', { class: 'btn small', type: 'button', text: 'Save anyway', onclick: () => doSave(true) }),
+        saveMsg));
+    const pages = el('div', { class: 'pages' }, ...r.pages.map((src, i) => el('figure', {}, el('img', { src, alt: `Page ${i + 1} of the checked PDF`, loading: 'lazy' }), el('figcaption', { text: `Page ${i + 1}` }))));
+    $('#result').replaceChildren(v, pages);
+  } catch (e) { showError(['Could not reach the editor server. Is it still running?']); }
+  finally { b.classList.remove('busy'); b.disabled = false; updateStatus(); }
+}
+async function doSave(acceptFails = false) {
+  if (!lastCheck || !same(lastCheck.tokens, T)) { showError(['Check PDF first: the settings changed since the last check.']); showTab('#t-pdf'); return; }
+  if (acceptFails && !confirm('The check found problems. Save this design anyway? Resumes built from now on will use it.')) return;
+  const b = $('#save'); b.classList.add('busy');
+  const r = await api('/api/save', { tokens: lastCheck.tokens, check_id: lastCheck.id, accept_fails: acceptFails });
+  b.classList.remove('busy');
+  const m = $('#savemsg');
+  if (!r.ok) { showError(r.errors); showTab('#t-pdf'); return; }
+  saved = clone(T); S.saved_exists = true; store.del('gmh-design-draft');
+  if (m) { m.className = 'msg good'; m.textContent = `Saved to ${r.path}` + (r.backup ? `. Previous design kept at ${r.backup}.` : '.') + ' Applies to resumes built from now on.'; }
+  showTab('#t-pdf'); updateStatus();
+}
+async function loadResume() {
+  const id = $('#source').value;
+  resume = id ? await api('/api/resume?id=' + encodeURIComponent(id)) : null;
+  if (resume && resume.error) resume = null;
+  store.set('gmh-design-source', id);
+  lastCheck = null; $('#pdfdot').hidden = true;
+  $('#result').replaceChildren(el('div', { class: 'empty' }, el('h2', { text: 'No check yet' }), el('p', { text: 'Check PDF builds this resume with the current settings.' })));
+  changed();
+}
+
+async function init() {
+  S = await api('/api/state');
+  if (S.error) { $('#status').textContent = S.error; return; }
+  registerFonts();
+  saved = clone(S.tokens);
+  T = clone(S.tokens);
+  const draft = store.get('gmh-design-draft');
+  if (draft) { try { const d = JSON.parse(draft); if (d && d.fonts && d.colors) T = d; } catch (e) {} }
+  const src = $('#source');
+  src.replaceChildren(...S.sources.map(s => el('option', { value: s.id, text: s.label })));
+  const remembered = store.get('gmh-design-source');
+  if (remembered && S.sources.some(s => s.id === remembered)) src.value = remembered;
+  src.addEventListener('change', loadResume);
+  buildControls();
+  $('#check').addEventListener('click', runCheck);
+  $('#save').addEventListener('click', () => doSave(false));
+  $('#t-live').addEventListener('click', () => showTab('#t-live'));
+  $('#t-pdf').addEventListener('click', () => showTab('#t-pdf'));
+  new ResizeObserver(() => fit()).observe($('#p-live'));
+  await ensureFonts();
+  await loadResume();
+}
+init();
+</script>
+</body>
+</html>

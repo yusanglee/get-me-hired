@@ -1,0 +1,47 @@
+{
+ "name": "<kebab-case>",
+ "label": "<Role family>",
+ "_note": "Copy to packs/<name>.json and fill in. See engine/packs.py for every field.",
+ "titles": {
+  "include": "<regex>",
+  "exclude": [],
+  "other_family": "",
+  "family_override": "",
+  "senior": "senior|staff|principal|lead|director|head",
+  "board_queries": [],
+  "no_range": "",
+  "_no_range_note": "What to do with a posting that shows no pay range: include_if_level_fits (keep only titles matching 'senior'; the default), include (keep regardless; use it for fields whose titles carry no level word, like Registered Nurse or Math Teacher), or exclude (drop every no-range posting). Empty means use config salary.no_range_policy."
+ },
+ "triage": {
+  "manager_of_managers": "",
+  "_note": "Regex for 'asks you to manage managers' in a posting. Empty keeps the built-in product-management pattern (engine/triage.py MANAGERS_RE); set one with your field's wording."
+ },
+ "sources": {
+  "builtin_path": "",
+  "remote100k_category": "",
+  "_note": "Built In and remote100k search by category. builtin_path is a Built In path such as /jobs/remote/nursing (a string or list); remote100k_category is a remote100k category such as healthcare. Config sources.builtin.opts.paths and sources.remote100k.opts.categories win. A pack that sets neither skips those two boards (only product-management has built-in defaults)."
+ },
+ "level": {
+  "title": [
+   {
+    "pattern": "staff|principal|lead|director|head",
+    "points": 6
+   },
+   {
+    "pattern": "senior|sr\\.?",
+    "points": 3
+   }
+  ],
+  "pay": [],
+  "down_level_title": "",
+  "down_level_below": null
+ },
+ "requirements": {
+  "alternatives": null
+ },
+ "strength_catalog": [],
+ "strength_cap": 45,
+ "gap_catalog": [],
+ "title_gaps": [],
+ "terms": []
+}

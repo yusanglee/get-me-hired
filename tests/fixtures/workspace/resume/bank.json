@@ -1,0 +1,12 @@
+{
+ "bio_prefix": "Chief of Staff  ·  ",
+ "bullets": {
+  "OPS": {"text": "Ran the weekly operating review for **12 executives**", "experience": "examplehealth"},
+  "BRD": {"text": "Built the board deck process, cutting prep **from 3 weeks to 1**", "experience": "examplehealth"},
+  "HIRE": {"text": "Hired and onboarded **9 executives** in 18 months", "experience": "examplehealth"},
+  "PLAN": {"text": "Led the annual planning process across **6 business units**", "experience": "acme"},
+  "MNA": {"text": "Ran diligence on **3 acquisitions**", "experience": "acme"}
+ },
+ "skills": ["Operating Cadence", "OKRs", "Board Prep", "M&A Diligence", "Executive Hiring"],
+ "skill_sets": {"core": ["Operating Cadence", "OKRs"]}
+}

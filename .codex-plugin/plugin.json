@@ -1,0 +1,16 @@
+{
+  "name": "get-me-hired",
+  "version": "1.0.0",
+  "description": "Job search with approval gates: find roles, score them against your background, tailor your resume from approved bullets, fill application forms up to Submit, and track every application. Your data stays in a private workspace folder.",
+  "author": {"name": "Yusang Lee"},
+  "license": "MIT",
+  "skills": "./skills/",
+  "mcpServers": "./.codex-plugin/mcp.json",
+  "hooks": "./hooks/codex.json",
+  "interface": {
+    "displayName": "get-me-hired",
+    "shortDescription": "Job search with approval gates: nothing is submitted without you.",
+    "developerName": "Yusang Lee",
+    "category": "Productivity"
+  }
+}

@@ -1,0 +1,2 @@
+description = "Works through a day's apply queue, with reads and resume choices, materials, drafts, forms filled in batches by an agent and one submit approval per batch, then offers LinkedIn follow-up. Use to apply on its own; the whole day is the today skill."
+prompt = "Use the get-me-hired apply-all skill. {{args}}"

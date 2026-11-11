@@ -1,0 +1,373 @@
+{
+ "name": "product-management",
+ "label": "Product Management",
+ "titles": {
+  "include": "\\bproduct manag|\\bhead of product\\b|\\bdirector,? (of )?product( management)?$|\\bdirector,? (of )?product management\\b|\\bproduct lead\\b|\\bgroup product\\b|\\bproduct manager\\b|^(\\([^)]*\\)\\s*)?((senior|sr\\.?|staff|principal|lead|group)\\s+)*manager,? (of )?product( management)?(\\s*[,:(|-]|\\s+[–—]|$)",
+  "exclude": [
+   "associate product manager",
+   "apm",
+   "intern",
+   "product marketing",
+   "product designer",
+   "product owner",
+   "project manager",
+   "program manager",
+   "product operations",
+   "product analyst"
+  ],
+  "other_family": "design|security|legal|counsel|communications|chief of staff|hardware|engineering|marketing|operations|analytics|data science|research|recruit|sales|finance|support",
+  "family_override": "product manag",
+  "senior": "\\b(senior|sr\\.?|staff|principal|lead|group|director|head|manager ii|iii|l5|l6|l7)\\b",
+  "board_queries": [
+   "senior product manager",
+   "staff product manager",
+   "principal product manager",
+   "lead product manager",
+   "group product manager",
+   "product manager",
+   "director of product",
+   "head of product",
+   "senior technical product manager",
+   "senior manager, product"
+  ]
+ },
+ "level": {
+  "title": [
+   {
+    "pattern": "staff|principal|lead|group|director|head",
+    "points": 6
+   },
+   {
+    "pattern": "senior|sr\\.?",
+    "points": 3
+   }
+  ],
+  "pay": [
+   {
+    "min_top": 300000,
+    "points": 6
+   },
+   {
+    "min_top": 250000,
+    "points": 3
+   }
+  ],
+  "down_level_title": "product manager ii\\b|product manager i\\b",
+  "down_level_below": 260000,
+  "_note": "Pay points apply only when the title has no level word; set them to your market."
+ },
+ "requirements": {
+  "alternatives": null,
+  "_note": "Optional regex: a gap next to 'or <this>' doesn't count. /setup fills it from your strongest areas."
+ },
+ "strength_cap": 45,
+ "title_gaps": [
+  {
+   "pattern": "\\bads?\\b|advertis",
+   "label": "ads products",
+   "weight": 12
+  }
+ ],
+ "terms": [
+  "a/b testing",
+  "experimentation",
+  "sql",
+  "python",
+  "mixpanel",
+  "amplitude",
+  "looker",
+  "tableau",
+  "figma",
+  "jira",
+  "okrs",
+  "okr",
+  "roadmap",
+  "go-to-market",
+  "user research",
+  "analytics",
+  "machine learning",
+  "ml",
+  "llm",
+  "ai",
+  "growth",
+  "monetization",
+  "retention",
+  "activation",
+  "onboarding",
+  "marketplace",
+  "personalization",
+  "recommendations",
+  "mobile",
+  "ios",
+  "android",
+  "payments",
+  "subscriptions",
+  "community",
+  "creator",
+  "social",
+  "consumer",
+  "engagement",
+  "funnel",
+  "conversion",
+  "pricing",
+  "seo",
+  "referral",
+  "trust & safety",
+  "moderation",
+  "privacy",
+  "gdpr",
+  "api",
+  "platform",
+  "data science",
+  "stakeholder",
+  "cross-functional",
+  "0-to-1",
+  "zero-to-one",
+  "strategy",
+  "vision",
+  "b2b",
+  "enterprise",
+  "ads",
+  "advertising"
+ ],
+ "_note": "Base pack for product manager roles. /setup copies it to your workspace as pack.json and keeps the catalog entries your resume supports (strengths) or doesn't (gaps); you then edit and approve it.",
+ "strength_catalog": [
+  {
+   "pattern": "consumer",
+   "weight": 3
+  },
+  {
+   "pattern": "growth",
+   "weight": 3
+  },
+  {
+   "pattern": "marketplace",
+   "weight": 4
+  },
+  {
+   "pattern": "creator",
+   "weight": 4
+  },
+  {
+   "pattern": "communit(y|ies)",
+   "weight": 4
+  },
+  {
+   "pattern": "\\bgam(e|es|ing|ification)\\b",
+   "weight": 4
+  },
+  {
+   "pattern": "collect(ible|or)s?",
+   "weight": 5
+  },
+  {
+   "pattern": "\\bsocial\\b",
+   "weight": 3
+  },
+  {
+   "pattern": "monetiz",
+   "weight": 3
+  },
+  {
+   "pattern": "engagement",
+   "weight": 3
+  },
+  {
+   "pattern": "onboarding",
+   "weight": 3
+  },
+  {
+   "pattern": "retention",
+   "weight": 3
+  },
+  {
+   "pattern": "activation",
+   "weight": 3
+  },
+  {
+   "pattern": "experiment|a/b test",
+   "weight": 3
+  },
+  {
+   "pattern": "0[- ]to[- ]1|zero[- ]to[- ]one",
+   "weight": 4
+  },
+  {
+   "pattern": "\\bmobile\\b",
+   "weight": 2
+  },
+  {
+   "pattern": "personaliz|recommend",
+   "weight": 3
+  },
+  {
+   "pattern": "trust (and|&) safety|moderation",
+   "weight": 3
+  },
+  {
+   "pattern": "\\bai\\b|llm|agent",
+   "weight": 2
+  },
+  {
+   "pattern": "subscription",
+   "weight": 2
+  },
+  {
+   "pattern": "\\bfans?\\b|entertainment|media",
+   "weight": 3
+  },
+  {
+   "pattern": "loyalty|rewards|referral|viral",
+   "weight": 3
+  },
+  {
+   "pattern": "live ?ops|live events?",
+   "weight": 3
+  },
+  {
+   "pattern": "licens(e|ing)|\\bip\\b|brand partner",
+   "weight": 2
+  },
+  {
+   "pattern": "payments?|checkout",
+   "weight": 1
+  },
+  {
+   "pattern": "fintech|savings|investing",
+   "weight": 2
+  },
+  {
+   "pattern": "millions of (users|people|customers)|tens of millions",
+   "weight": 2
+  },
+  {
+   "pattern": "\\bcraft\\b|product taste|delight",
+   "weight": 2
+  },
+  {
+   "pattern": "\\bb2b\\b|enterprise|saas",
+   "weight": 3
+  },
+  {
+   "pattern": "developer (platform|tools|experience)|\\bapi\\b|sdk",
+   "weight": 3
+  },
+  {
+   "pattern": "infrastructure|platform",
+   "weight": 2
+  },
+  {
+   "pattern": "ad ?tech|advertis|ads (delivery|ranking|measurement)",
+   "weight": 3
+  },
+  {
+   "pattern": "machine learning|ml platform|data platform",
+   "weight": 3
+  },
+  {
+   "pattern": "healthcare|health ?tech|clinical",
+   "weight": 3
+  },
+  {
+   "pattern": "\\bkids?\\b|family|education|edtech|learning",
+   "weight": 3
+  },
+  {
+   "pattern": "e-?commerce|retail|shopping",
+   "weight": 3
+  },
+  {
+   "pattern": "travel|hospitality",
+   "weight": 3
+  },
+  {
+   "pattern": "security|privacy",
+   "weight": 2
+  },
+  {
+   "pattern": "insurance|lending|credit",
+   "weight": 2
+  },
+  {
+   "pattern": "sports|streaming|video",
+   "weight": 3
+  }
+ ],
+ "gap_catalog": [
+  {
+   "pattern": "\\bb2b\\b|enterprise customers|enterprise (product|software|saas)",
+   "label": "B2B/enterprise",
+   "weight": 10
+  },
+  {
+   "pattern": "\\bapi (platform|product)|developer (platform|tools|experience)|sdk",
+   "label": "developer/API platform",
+   "weight": 12
+  },
+  {
+   "pattern": "infrastructure|reliability|observability|distributed systems",
+   "label": "infrastructure",
+   "weight": 12
+  },
+  {
+   "pattern": "compliance (product|experience|background|program)|regulatory (experience|background|requirements)|\\baml\\b|\\bbsa\\b",
+   "label": "compliance",
+   "weight": 8
+  },
+  {
+   "pattern": "cybersecurity|security (product|engineering|experience|background)|threat (detection|intelligence)",
+   "label": "security",
+   "weight": 10
+  },
+  {
+   "pattern": "ad ?tech|programmatic|auction|ads (delivery|ranking|measurement|quality)|advertis(ing|er) (products?|platform)|brand lift|incrementality",
+   "label": "ads products",
+   "weight": 12
+  },
+  {
+   "pattern": "ml platform|machine learning platform|ranking models?|model training|data platform",
+   "label": "ML/data platform",
+   "weight": 10
+  },
+  {
+   "pattern": "billing|revenue recognition|capital markets|brokerage operations|lending|credit risk|underwriting",
+   "label": "finance ops/credit",
+   "weight": 8
+  },
+  {
+   "pattern": "clinical|hipaa|healthcare (product|experience|industry)|health ?tech",
+   "label": "healthcare",
+   "weight": 12
+  },
+  {
+   "pattern": "\\bkids?\\b|children|coppa",
+   "label": "kids/family",
+   "weight": 10
+  },
+  {
+   "pattern": "live sports|sports streaming|connected tv|\\bctv\\b|esports|broadcast",
+   "label": "sports/CTV/broadcast",
+   "weight": 10
+  },
+  {
+   "pattern": "public sector|government|clearance|fedramp",
+   "label": "public sector",
+   "weight": 15
+  },
+  {
+   "pattern": "(bachelor'?s|bs|ms|master'?s) (degree )?in (computer science|engineering)|technical degree required|phd",
+   "label": "technical degree",
+   "weight": 6
+  },
+  {
+   "pattern": "hardware|firmware|embedded|wearables?",
+   "label": "hardware",
+   "weight": 10
+  },
+  {
+   "pattern": "insurance (product|industry)|tax (product|software)|accounting|payroll|hr tech|people product",
+   "label": "B2B ops domain",
+   "weight": 8
+  }
+ ]
+}

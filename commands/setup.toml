@@ -1,0 +1,2 @@
+description = "Sets up a private job-search workspace from the user's resumes (every version, PDFs included), a LinkedIn export or an interview - profile, approved resume, role pack, search settings and target companies. Use once at the start, or again after an update to check the workspace."
+prompt = "Use the get-me-hired setup skill. {{args}}"

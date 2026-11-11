@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.DS_Store
+# User data never belongs in this repo
+/workspace/
+*.local.json
+/tools/node_modules/
+# Personal data from browser automation and session hand-overs (form fills, screenshots, logs)
+/.playwright-mcp/
+/.claude/handovers/
+/.claude/worktrees/
+# The plugin agents copied in by `gmh setup agents` (a checkout with no plugin installed)
+/.claude/agents/

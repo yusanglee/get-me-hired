@@ -1,0 +1,39 @@
+# get-me-hired: ask the user before any Playwright call that could submit a job application.
+# Gemini CLI extension policies run at tier 2 and cannot use "allow". Experimental, untested.
+# Same cases as hooks/approval_guard.js; argsPattern is a regex matched against the call's JSON arguments.
+
+# Run code / evaluate: ask when the code or file name looks like a submit.
+[[rule]]
+mcpName = "playwright"
+toolName = ["browser_run_code_unsafe", "browser_run_code", "browser_evaluate"]
+argsPattern = "(?i)tools[\\\\/]+submit[\\\\/]|submit_(greenhouse|ashby|lever)\\b|getByRole\\([^)]*button[^)]*submit|#btn-submit|\\[type=['\\\\\"]?submit|:has-text\\([^)]*submit|text=['\\\\\"]?submit|requestSubmit\\s*\\(|\\.submit\\s*\\(\\s*\\)"
+decision = "ask_user"
+priority = 900
+denyMessage = "get-me-hired: this could submit a job application. Only the user approves that, in chat."
+
+# Click on an element described as Submit / Send application.
+[[rule]]
+mcpName = "playwright"
+toolName = "browser_click"
+argsPattern = "(?i)\"element\"\\s*:\\s*\"[^\"]*(\\bsubmit|send application)"
+decision = "ask_user"
+priority = 900
+denyMessage = "get-me-hired: this could submit a job application. Only the user approves that, in chat."
+
+# Typing with submit:true presses Enter in the field.
+[[rule]]
+mcpName = "playwright"
+toolName = "browser_type"
+argsPattern = "\"submit\"\\s*:\\s*true"
+decision = "ask_user"
+priority = 900
+denyMessage = "get-me-hired: this could submit a job application. Only the user approves that, in chat."
+
+# Enter can submit a form.
+[[rule]]
+mcpName = "playwright"
+toolName = "browser_press_key"
+argsPattern = "(?i)\"key\"\\s*:\\s*\"([^\"]*\\+)?(numpad)?enter\""
+decision = "ask_user"
+priority = 900
+denyMessage = "get-me-hired: this could submit a job application. Only the user approves that, in chat."

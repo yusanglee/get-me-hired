@@ -1,0 +1,13 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "get-me-hired",
+  "displayName": "get-me-hired",
+  "description": "Job search with approval gates: find roles, score them against your background, tailor your resume from approved bullets, fill application forms up to Submit, and track every application. Your data stays in a private workspace folder.",
+  "version": "1.0.0",
+  "author": {"name": "Yusang Lee"},
+  "license": "MIT",
+  "homepage": "https://github.com/yusanglee/get-me-hired",
+  "repository": "https://github.com/yusanglee/get-me-hired",
+  "keywords": ["job-search", "resume", "applications", "career"],
+  "suggestedPrompts": ["Set up my job search", "Run today's job search"]
+}

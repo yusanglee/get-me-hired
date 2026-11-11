@@ -1,0 +1,11 @@
+#!/bin/bash
+# get-me-hired launcher: gmh <command> [args]   (gmh --help lists the commands; engine/__main__.py holds the table)
+# Finds Python 3.9 or newer as python3, python or py -3; Windows without bash uses bin/gmh.cmd.
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+for py in python3 python "py -3"; do
+  if $py -c 'import sys; sys.exit(sys.version_info < (3, 9))' >/dev/null 2>&1; then
+    exec $py -I -X utf8 "$HERE/gmh.py" "$@"
+  fi
+done
+echo "gmh: needs Python 3.9 or newer (python3 --version)" >&2
+exit 127

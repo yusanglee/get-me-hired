@@ -1,0 +1,2 @@
+description = "Changes how resumes and cover letters look (fonts, sizes, colors, spacing) in a local editor with a live preview; saving builds a real PDF and runs the resume checks first. Use when the user wants a different look."
+prompt = "Use the get-me-hired design skill. {{args}}"
