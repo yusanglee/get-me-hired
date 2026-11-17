@@ -1,6 +1,6 @@
 {
   "name": "get-me-hired",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Job search with approval gates: find roles, score them against your background, tailor your resume from approved bullets, fill application forms up to Submit, and track every application. Your data stays in a private workspace folder.",
   "author": {
     "name": "Yusang Lee"

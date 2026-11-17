@@ -116,6 +116,12 @@ class Prep(Workspace):
         self.assertIn(os.path.join(self.folder, 'Jordan Rivera Cover Letter.docx'), out)
         self.assertIn(os.path.join(self.folder, 'posting.md'), out)
 
+    def test_pitch_section_after_stresses(self):
+        out = run(tracker.main, ['prep', 'ab-harbor-9', '--workspace', self.ws])[1]
+        self.assertIn('## 60-second pitch (all facts sourced below; say it in your own words)\n{pitch}', out)
+        self.assertLess(out.index('## What they stress'), out.index('## 60-second pitch'))
+        self.assertLess(out.index('## 60-second pitch'), out.index('## Your matching stories'))
+
     def test_unknown_key_exits(self):
         self.assertNotEqual(run(tracker.main, ['prep', 'nope', '--workspace', self.ws])[0], 0)
 

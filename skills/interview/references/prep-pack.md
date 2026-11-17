@@ -15,6 +15,10 @@ the current master resume.
 2. Read the submitted resume (the PDF's text), the cover letter, the saved posting and `application-notes.md`.
 3. Fill the template and write `<folder>/interview-prep.md`:
    - **What they stress:** the role in two lines and what the posting stresses most, quoted.
+   - **60-second pitch:** about 150 words, as a blockquote, aimed at the posting's top stresses, built only from
+     facts on this page. Follow it with a Sources line that splits those facts into submitted resume, cover letter and
+     master-only (in master-resume.md but not in the submitted materials), so the user knows which ones the
+     interviewer hasn't seen.
    - **Your matching stories:** for each top requirement, the resume bullet that answers it and a STAR outline built
      only from that bullet and the master resume. A requirement with no supporting fact is marked as a gap to
      prepare for honestly. (Gaps belong here, for the user; never in anything an employer sees.)

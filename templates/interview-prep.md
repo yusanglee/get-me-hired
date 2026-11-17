@@ -11,6 +11,10 @@ Status: {status}. Interview stage, date and interviewers: {stage_details}
 {stresses}
 <!-- 3 to 5 bullets, each tied to a posting line. -->
 
+## 60-second pitch (all facts sourced below; say it in your own words)
+{pitch}
+<!-- About 150 words tailored to the posting's top stresses, as a blockquote (> ...). Then a Sources line that splits its facts into submitted resume, cover letter, and master-only (master-resume.md facts not in the submitted materials). Facts only from those three. -->
+
 ## Your matching stories
 {stories}
 <!-- One bullet per stress: the story and the resume line it comes from. Submitted materials and master-resume.md only. -->
